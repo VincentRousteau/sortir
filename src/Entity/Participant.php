@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -45,9 +47,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
-    #[ORM\ManyToOne(inversedBy: 'participants')]
+    #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
+
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, orphanRemoval: true)]
+    private Collection $sortiesOrganisees;
+
+    public function __construct()
+    {
+        $this->sortiesOrganisees = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -218,6 +228,36 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getSortiesOrganisees(): Collection
+    {
+        return $this->sortiesOrganisees;
+    }
+
+    public function addSortieOrganisee(Sortie $sortieOrganisee): self
+    {
+        if (!$this->sortiesOrganisees->contains($sortieOrganisee)) {
+            $this->sortiesOrganisees->add($sortieOrganisee);
+            $sortieOrganisee->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortieOrganisee(Sortie $sortieOrganisee): self
+    {
+        if ($this->sortiesOrganisees->removeElement($sortieOrganisee)) {
+            // set the owning side to null (unless already changed)
+            if ($sortieOrganisee->getOrganisateur() === $this) {
+                $sortieOrganisee->setOrganisateur(null);
+            }
+        }
 
         return $this;
     }

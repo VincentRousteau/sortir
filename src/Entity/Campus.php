@@ -15,9 +15,6 @@ class Campus
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $idCampus = null;
-
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 

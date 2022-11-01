@@ -30,6 +30,7 @@ class ParticipantFixtures extends Fixture
         $admin->setPrenom("Ludo");
         $admin->setTelephone("0666666666");
         $admin->setActif(true);
+        $admin->setPseudo("Ludo");
         $admin->setCampus($this->getReference("chartres"));
         $manager->persist($admin);
 
@@ -41,6 +42,7 @@ class ParticipantFixtures extends Fixture
         $user->setPrenom("Vincent");
         $user->setTelephone("0777777777");
         $user->setActif(true);
+        $user->setPseudo("Vincente");
         $user->setCampus($this->getReference("nantes"));
         $manager->persist($user);
 
@@ -52,6 +54,7 @@ class ParticipantFixtures extends Fixture
         $user2->setPrenom("Samuel");
         $user2->setTelephone("0777777777");
         $user2->setActif(true);
+        $user2->setPseudo("Sam");
         $user2->setCampus($this->getReference("niort"));
         $manager->persist($user2);
 

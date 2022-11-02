@@ -35,18 +35,6 @@ class Campus
         return $this->id;
     }
 
-    public function getIdCampus(): ?int
-    {
-        return $this->idCampus;
-    }
-
-    public function setIdCampus(int $idCampus): self
-    {
-        $this->idCampus = $idCampus;
-
-        return $this;
-    }
-
     public function getNom(): ?string
     {
         return $this->nom;

@@ -27,11 +27,11 @@ class Lieu
     #[ORM\Column]
     private ?float $longitude = null;
 
-    #[ORM\ManyToOne(targetEntity: Ville::class, inversedBy: 'lieux')]
+    #[ORM\ManyToOne(targetEntity: Ville::class, cascade: ['persist'], inversedBy: 'lieux')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Ville $ville = null;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class,  orphanRemoval: true)]
     private Collection $sorties;
 
     public function __construct()

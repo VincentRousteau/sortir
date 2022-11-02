@@ -27,7 +27,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    private ?string $motDePasse = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -41,7 +41,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $actif = null;
 
-    #[ORM\Column(length: 255, unique:true) ]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $pseudo = null;
 
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'participants')]
@@ -84,7 +84,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -92,7 +92,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -117,14 +117,14 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getMotDePasse(): string
     {
-        return $this->password;
+        return $this->motDePasse;
     }
 
-    public function setPassword(string $password): self
+    public function setMotDePasse(string $motDePasse): self
     {
-        $this->password = $password;
+        $this->motDePasse = $motDePasse;
 
         return $this;
     }
@@ -181,18 +181,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(string $motDePasse): self
-    {
-        $this->motDePasse = $motDePasse;
 
         return $this;
     }
@@ -271,18 +259,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function addSortie(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties->add($sorty);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties->add($sortie);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    public function removeSortie(Sortie $sortie): self
     {
-        $this->sorties->removeElement($sorty);
+        $this->sorties->removeElement($sortie);
 
         return $this;
     }

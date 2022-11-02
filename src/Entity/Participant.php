@@ -41,7 +41,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $actif = null;
 
-    #[ORM\Column(length: 255, unique:true) ]
+    #[ORM\Column(length: 50, unique:true) ]
     private ?string $pseudo = null;
 
     #[ORM\ManyToOne(targetEntity: Campus::class, inversedBy: 'participants')]

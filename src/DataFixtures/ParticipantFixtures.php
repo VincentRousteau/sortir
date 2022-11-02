@@ -25,7 +25,7 @@ class ParticipantFixtures extends Fixture
         $admin = new Participant();
         $admin->setEmail("admin@admin.com");
         $admin->setRoles(["ROLE_ADMIN"]);
-        $admin->setMotDePasse($this->hasher->hashPassword($admin, 'admin'));
+        $admin->setPassword($this->hasher->hashPassword($admin, 'admin'));
         $admin->setNom("LM");
         $admin->setPrenom("Ludo");
         $admin->setTelephone("0666666666");
@@ -37,7 +37,7 @@ class ParticipantFixtures extends Fixture
         $user = new Participant();
         $user->setEmail("user@user.com");
         $user->setRoles(["ROLE_USER"]);
-        $user->setMotDePasse($this->hasher->hashPassword($user, 'user'));
+        $user->setPassword($this->hasher->hashPassword($user, 'user'));
         $user->setNom("Rousteau");
         $user->setPrenom("Vincent");
         $user->setTelephone("0777777777");
@@ -49,7 +49,7 @@ class ParticipantFixtures extends Fixture
         $user2 = new Participant();
         $user2->setEmail("user2@user2.com");
         $user2->setRoles(["ROLE_USER"]);
-        $user2->setMotDePasse($this->hasher->hashPassword($user2, 'user2'));
+        $user2->setPassword($this->hasher->hashPassword($user2, 'user2'));
         $user2->setNom("Moreau");
         $user2->setPrenom("Samuel");
         $user2->setTelephone("0777777777");

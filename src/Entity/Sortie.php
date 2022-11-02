@@ -16,9 +16,6 @@ class Sortie
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $idSortie = null;
-
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
@@ -37,7 +34,7 @@ class Sortie
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $infosSortie = null;
 
-    #[ORM\ManyToOne(targetEntity: Lieu::class,inversedBy: 'sorties')]
+    #[ORM\ManyToOne(targetEntity: Lieu::class, cascade: ['persist'], inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
@@ -64,18 +61,6 @@ class Sortie
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdSortie(): ?int
-    {
-        return $this->idSortie;
-    }
-
-    public function setIdSortie(int $idSortie): self
-    {
-        $this->idSortie = $idSortie;
-
-        return $this;
     }
 
     public function getNom(): ?string

@@ -13,11 +13,11 @@ class LoginController extends AbstractController
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $email = $authenticationUtils->getLastUsername();
 
-        return $this->render('login/count.html.twig', [
+        return $this->redirectToRoute('homepage', [
             "error" => $error,
-            "last_username" => $lastUsername
+            "last_username" => $email
         ]);
     }
 

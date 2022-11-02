@@ -15,9 +15,6 @@ class Lieu
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $idLieu = null;
-
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
@@ -30,11 +27,11 @@ class Lieu
     #[ORM\Column]
     private ?float $longitude = null;
 
-    #[ORM\ManyToOne(targetEntity: Ville::class, inversedBy: 'lieux')]
+    #[ORM\ManyToOne(targetEntity: Ville::class, cascade: ['persist'], inversedBy: 'lieux')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Ville $ville = null;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class,  orphanRemoval: true)]
     private Collection $sorties;
 
     public function __construct()
@@ -45,18 +42,6 @@ class Lieu
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdLieu(): ?int
-    {
-        return $this->idLieu;
-    }
-
-    public function setIdLieu(int $idLieu): self
-    {
-        $this->idLieu = $idLieu;
-
-        return $this;
     }
 
     public function getNom(): ?string

@@ -55,7 +55,7 @@ class ProfileType extends AbstractType
             ])
             ->add('telephone',NumberType::class, [
                 'required' => true,
-                'label' => "Prénom",
+                'label' => "Téléphone",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir votre numéro de téléphone mobile'
@@ -76,11 +76,11 @@ class ProfileType extends AbstractType
                 ]
             ])
             ->add('password',PasswordType::class, [
-        'required' => true,
-        'label' => 'Mot de passe',
-        'constraints' => [
-            new NotBlank([
-                'message' => 'Veuillez saisir un mot de passe'
+                'required' => true,
+                'label' => 'Mot de passe',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un mot de passe'
                     ])
                 ]
             ])
@@ -97,7 +97,7 @@ class ProfileType extends AbstractType
                 'required' => true,
                 'label' => 'Choisissez un campus',
                 'class' => Campus::class,
-                'choice_label' => 'name',
+                'choice_label' => 'nom',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez choisir un campus'

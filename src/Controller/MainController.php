@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\RechercheFormType;
 use App\Repository\ParticipantRepository;
+use App\Entity\Participant;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,35 +16,17 @@ class MainController extends AbstractController
     public function index(AuthenticationUtils $authenticationUtils, ParticipantRepository $participantRepository): Response
     {
         $email = $authenticationUtils->getLastUsername();
+        $personne = new Participant();
         $personne = $participantRepository->findOneByEmail($email);
+
+        $sortiesOrganisees = $participantRepository->findAllSortiesOrganisees($personne);
 
         $sortiesForm = $this->createForm(RechercheFormType::class);
 
         return $this->render('main/home.html.twig', [
-            'personne'=> $personne,
-            'sortiesForm' => $sortiesForm->createView()
+            'personne' => $personne,
+            'sortiesForm' => $sortiesForm->createView(),
+            'sortiesOrganisees'=>$sortiesOrganisees
         ]);
-    }
-
-    public function getInfosByEmail(string $email)
-    {
-        $qb = $this->createQueryBuilder();
-
-        $qb->select('prenom', 'nom')
-            ->from('participants', 'p')
-            ->where('p.email = ?1')
-            ->setParameter(1, $email);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    public function filndAllSortiesOrganisees()
-    {
-
-        $qb = $this->createQueryBuilder('sorties');
-
-        $qb->addSelect('sorties')
-            ->orderBy('');
-
     }
 }

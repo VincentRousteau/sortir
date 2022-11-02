@@ -80,4 +80,17 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findAllSortiesOrganisees($personne)
+    {
+        $qb = $this->createQueryBuilder('so');
+
+        $qb->addSelect('p')
+            ->innerJoin('so.sortiesOrganisees', 'p')
+            ->where('p.organisateur = ?1')
+            ->orderBy('so.dateHeureDebut', 'ASC')
+            ->setParameter(1, $personne);
+
+        return $qb->getQuery()->getResult();
+    }
 }

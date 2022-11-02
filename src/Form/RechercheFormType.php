@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -33,6 +34,18 @@ class RechercheFormType extends AbstractType
             ])
             ->add('dateFin', DateType::class, [
                 'label' => 'et le'
+            ])
+            ->add('sortiesOrganisees', CheckboxType::class, [
+                'label' => 'Sorties dont je suis l\'organisateur/trice'
+            ])
+            ->add('sortiesInscrit', CheckboxType::class, [
+                'label' => 'Sorties auxquelles je suis inscrit/e'
+            ])
+            ->add('sortiesNonInscrit', CheckboxType::class, [
+                'label' => 'Sorties auxquelles je ne suis pas inscrit/e'
+            ])
+            ->add('sortiesPassees', CheckboxType::class, [
+                'label' => 'Sorties passées'
             ]);
     }
 

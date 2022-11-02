@@ -17,5 +17,11 @@
     <button>Rechercher</button>
 
     {{ form_end(sortiesForm) }}
-
+<ul>
+    {% for sortie in sortiesOrganisees %}
+        <li>
+            {{ sortie.nom~ ' ' ~sortie.dateHeureDebut~' '~sortie.duree }}
+        </li>
+    {% endfor %}
+</ul>
 {% endblock %}

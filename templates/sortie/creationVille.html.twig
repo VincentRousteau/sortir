@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Ajout d'une ville
+{% endblock %}
+
+{% block body %}
+    <h1>Ajout d'une ville</h1>
+
+    {{ form_start(villeForm) }}
+
+        {{ form_row(villeForm.motCle) }}
+
+    <button>Ajouter</button>
+
+    {{ form_end(villeForm) }}
+
+    <div class="listeVilles">
+        <ul>
+            {% for ville in villes %}
+                <li>{{ ville.nom }} - {{ ville.codePostal }} </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+{% endblock %}
+

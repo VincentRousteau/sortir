@@ -48,7 +48,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $user->setPseudo("Vincente");
         $user->setCampus($this->getReference("nantes"));
         $manager->persist($user);
-        $this->addReference("vincente", $admin);
+        $this->addReference("vincente", $user);
 
         $user2 = new Participant();
         $user2->setEmail("user2@user2.com");
@@ -61,7 +61,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $user2->setPseudo("Sam");
         $user2->setCampus($this->getReference("niort"));
         $manager->persist($user2);
-        $this->addReference("sam", $admin);
+        $this->addReference("sam", $user2);
 
         $manager->flush();
     }

@@ -35,7 +35,7 @@ class MainController extends AbstractController
         $sortiesPassees = $sortieRepository->findAllSortiesPassees($etat);
 
         $sortiesForm = $this->createForm(RechercheFormType::class);
-
+        
         return $this->render('main/home.html.twig', [
             'personne' => $personne,
             'sortiesForm' => $sortiesForm->createView(),

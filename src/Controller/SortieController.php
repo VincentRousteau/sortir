@@ -23,7 +23,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
         ]);
     }
-    #[Route('/sortie/creation', name:"sortie!creation")]
+    #[Route('/sortie/creation', name:"sortie_creation")]
     public function new(Request $request, EntityManagerInterface $em)
     {
         $sortie = new Sortie();

@@ -16,12 +16,13 @@ class UserController extends AbstractController
     #[Route('/user/profile', name: 'app_user_profile')]
     public function newProfile(AuthenticationUtils $authenticationUtils, ParticipantRepository $participantRepository, Request $request): Response
     {
-//        $user = $this->getUser();
-//        dd($user);
         $email = $authenticationUtils->getLastUsername();
         $personne = $participantRepository->findOneByEmail($email);
         $profile = new Participant();
-        $form = $this->createForm(ProfileType::class, $profile);
+        $form = $this->createForm(ProfileType::class, $personne, [
+            'action' => $this->generateUrl('app_user_profile'),
+            'method' => 'GET',
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -31,10 +32,10 @@ class UserController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Informations correctement enregistrées !');
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('user/count.html.twig', [
+        return $this->render('user/account.html.twig', [
             'userForm' => $form->createView(),
             'user'=> $personne
         ]);

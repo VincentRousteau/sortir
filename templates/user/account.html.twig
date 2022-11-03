@@ -4,7 +4,7 @@
     <h2>Profil de {{ user.prenom }} {{ user.nom }}</h2>
     <div>Campus : {{ user.campus.nom }}</div>
     {{ form_start(userForm) }}
-    {{ form(userForm) }}
+    {{ form_widget(userForm) }}
     {{ form_end(userForm) }}
 
 {#    <div id="profile_pic">#}

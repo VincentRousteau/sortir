@@ -111,17 +111,6 @@ class ProfileType extends AbstractType
         ;
     }
 
-    public function buildFormImg(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('file', DropzoneType::class, [
-                'attr' => [
-                    'placeholder' => 'Glissez, déposez une image ou cliquez pour la chercher',
-                ],
-            ])
-        ;
-    }
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

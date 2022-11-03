@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -103,6 +104,10 @@ class ProfileType extends AbstractType
                         'message' => 'Veuillez choisir un campus'
                     ])
                 ]
+            ])
+            ->add('photo', FileType::class, [
+                'label' => 'Ajouter votre photo',
+                'required'=>false
             ])
 
             ->add('enregistrer',SubmitType::class)

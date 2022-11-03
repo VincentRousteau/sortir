@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -97,7 +98,7 @@ class SortieRepository extends ServiceEntityRepository
 
         $qb->addSelect('p')
             ->innerJoin('s.participants', 'p')
-            ->where('p <> ?1')
+            ->where('?1 NOT MEMBER OF s.participants')
             ->orderBy('s.dateHeureDebut', 'ASC')
             ->setParameter(1, $personne);
 
@@ -111,7 +112,7 @@ class SortieRepository extends ServiceEntityRepository
 
         $qb->addSelect('p')
             ->innerJoin('s.participants', 'p')
-            ->where('s.etat ?1')
+            ->where('s.etat = ?1')
             ->orderBy('s.dateHeureDebut', 'ASC')
             ->setParameter(1, $etat);
 

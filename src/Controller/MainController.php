@@ -22,6 +22,8 @@ class MainController extends AbstractController
         $personne = new Participant();
         $personne = $participantRepository->findOneByEmail($email);
 
+
+        $etat = new Etat();
         $etat = $etatRepository->findOneByLibelle('Passé');
 
         $sortiesOrganisees = $sortieRepository->findAllSortiesOrganisees($personne);
@@ -37,9 +39,10 @@ class MainController extends AbstractController
         return $this->render('main/home.html.twig', [
             'personne' => $personne,
             'sortiesForm' => $sortiesForm->createView(),
-            'sortiesOrganisees'=>$sortiesOrganisees,
-            'sortiesParticipees'=>$sortiesParticipees,
-            'sortiesNonParticipees'=>$sortiesNonParticipees
+            'sortiesOrganisees' => $sortiesOrganisees,
+            'sortiesParticipees' => $sortiesParticipees,
+            'sortiesNonParticipees' => $sortiesNonParticipees,
+            'sortiesPassees'=>$sortiesPassees
         ]);
     }
 }

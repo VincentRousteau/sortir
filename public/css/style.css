@@ -47,6 +47,13 @@ main{
     flex-grow: 2;
 }
 
+#addPlace{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    z-index: 5;
+}
+
 footer{
     background: #616060;
     width: 100%;

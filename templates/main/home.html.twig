@@ -59,4 +59,15 @@
             </li>
         {% endfor %}
     </ul>
+
+    <br>
+
+    <p>Sorties par recherche : </p>
+    <ul>
+        {% for sortie in sortiesParRecherche %}
+            <li>
+                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes' }}
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

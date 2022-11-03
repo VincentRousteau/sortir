@@ -9,22 +9,22 @@ use App\Repository\ParticipantRepository;
 use App\Entity\Participant;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class MainController extends AbstractController
 {
-    #[Route('/', name: 'homepage')]
-    public function index(AuthenticationUtils $authenticationUtils, ParticipantRepository $participantRepository, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
+    #[Route('/', name: 'homepage', methods: ['GET', 'POST'])]
+    public function index(Request $request, ParticipantRepository $participantRepository, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
     {
-        $email = $authenticationUtils->getLastUsername();
-        $personne = new Participant();
+        $email = $this->getUser()->getUserIdentifier();
+
         $personne = $participantRepository->findOneByEmail($email);
 
-
-        $etat = new Etat();
         $etat = $etatRepository->findOneByLibelle('Passé');
+
+        $sortiesParRecherche = $sortieRepository->findAllSortiesParRecherche("cinema");
 
         $sortiesOrganisees = $sortieRepository->findAllSortiesOrganisees($personne);
 
@@ -42,7 +42,8 @@ class MainController extends AbstractController
             'sortiesOrganisees' => $sortiesOrganisees,
             'sortiesParticipees' => $sortiesParticipees,
             'sortiesNonParticipees' => $sortiesNonParticipees,
-            'sortiesPassees'=>$sortiesPassees
+            'sortiesPassees'=>$sortiesPassees,
+            'sortiesParRecherche'=>$sortiesParRecherche
         ]);
     }
 }

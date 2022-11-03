@@ -5,6 +5,7 @@
     <div>Campus : {{ user.campus.nom }}</div>
     {{ form_start(userForm) }}
     {{ form_widget(userForm) }}
+    {{ form_row(user.photo) }}
     {{ form_end(userForm) }}
 
     <div id="profile_pic">

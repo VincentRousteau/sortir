@@ -18,16 +18,14 @@ class RechercheFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('campus', ChoiceType::class, [
-                'label' => 'Campus'
-            ])
             ->add('campus', EntityType::class, [
                 'label' => 'Campus',
                 'choice_label' => 'nom',
                 'class'=> Campus::class
             ])
-            ->add('contient', TextType::class, [
-                'label' => 'Le nom de la sortie contient :'
+            ->add('recherche', TextType::class, [
+                'label' => 'Le nom de la sortie contient :',
+                'required' => false
             ])
             ->add('dateDebut', DateType::class, [
                 'label' => 'Entre le'
@@ -36,16 +34,21 @@ class RechercheFormType extends AbstractType
                 'label' => 'et le'
             ])
             ->add('sortiesOrganisees', CheckboxType::class, [
-                'label' => 'Sorties dont je suis l\'organisateur/trice'
+                'label' => 'Sorties dont je suis l\'organisateur/trice',
+                'required' => false
             ])
             ->add('sortiesInscrit', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je suis inscrit/e'
+                'label' => 'Sorties auxquelles je suis inscrit/e',
+                'required' => false
             ])
             ->add('sortiesNonInscrit', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je ne suis pas inscrit/e'
+                'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
+                'required' => false
+
             ])
             ->add('sortiesPassees', CheckboxType::class, [
-                'label' => 'Sorties passées'
+                'label' => 'Sorties passées',
+                'required' => false
             ]);
     }
 

@@ -119,4 +119,16 @@ class SortieRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
 
     }
+
+    public function findAllsortiesParRecherche(String $recherche)
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        $qb->where('s.nom LIKE ?1')
+            ->orderBy('s.dateHeureDebut', 'ASC')
+            ->setParameter(1, $recherche);
+
+        return $qb->getQuery()->getResult();
+
+    }
 }

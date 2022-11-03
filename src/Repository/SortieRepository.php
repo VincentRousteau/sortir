@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,4 +64,58 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findAllSortiesOrganisees(Participant $personne)
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        $qb->addSelect('o')
+            ->innerJoin('s.organisateur', 'o')
+            ->where('o = ?1')
+            ->orderBy('s.dateHeureDebut', 'ASC')
+            ->setParameter(1, $personne);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findAllsortiesInscrites(Participant $personne)
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        $qb->addSelect('p')
+            ->innerJoin('s.participants', 'p')
+            ->where('p = ?1')
+            ->orderBy('s.dateHeureDebut', 'ASC')
+            ->setParameter(1, $personne);
+
+        return $qb->getQuery()->getResult();
+
+    }
+
+    public function findAllsortiesNonInscrites(Participant $personne)
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        $qb->addSelect('p')
+            ->innerJoin('s.participants', 'p')
+            ->where('p <> ?1')
+            ->orderBy('s.dateHeureDebut', 'ASC')
+            ->setParameter(1, $personne);
+
+        return $qb->getQuery()->getResult();
+
+    }
+
+    public function findAllsortiesPassees(Etat $etat)
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        $qb->addSelect('p')
+            ->innerJoin('s.participants', 'p')
+            ->where('s.etat ?1')
+            ->orderBy('s.dateHeureDebut', 'ASC')
+            ->setParameter(1, $etat);
+
+        return $qb->getQuery()->getResult();
+
+    }
 }

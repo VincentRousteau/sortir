@@ -12,19 +12,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\isNull;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'homepage', methods: ['GET', 'POST'])]
-    public function index(ParticipantRepository $participantRepository, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
+    public function index(Request $request, ParticipantRepository $participantRepository, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
     {
         $email = $this->getUser()->getUserIdentifier();
 
         $personne = $participantRepository->findOneByEmail($email);
 
         $etat = $etatRepository->findOneByLibelle('Passé');
-
-        $sortiesParRecherche = $sortieRepository->findAllSortiesParRecherche("cinema");
 
         $sortiesOrganisees = $sortieRepository->findAllSortiesOrganisees($personne);
 
@@ -35,15 +34,30 @@ class MainController extends AbstractController
         $sortiesPassees = $sortieRepository->findAllSortiesPassees($etat);
 
         $sortiesForm = $this->createForm(RechercheFormType::class);
-        
+
+        $sortiesForm->handleRequest($request);
+
+        if ($sortiesForm->isSubmitted()) {
+
+            $recherche = $sortiesForm->get('recherche')->getData();
+            dump($recherche);
+
+            if (is_null($recherche)) {
+                $sortiesParRecherche = $sortieRepository->findAll();
+            } else {
+                $sortiesParRecherche = $sortieRepository->findAllSortiesParRecherche($recherche);
+            }
+        }
+
+
         return $this->render('main/home.html.twig', [
             'personne' => $personne,
             'sortiesForm' => $sortiesForm->createView(),
             'sortiesOrganisees' => $sortiesOrganisees,
             'sortiesParticipees' => $sortiesParticipees,
             'sortiesNonParticipees' => $sortiesNonParticipees,
-            'sortiesPassees'=>$sortiesPassees,
-            'sortiesParRecherche'=>$sortiesParRecherche
+            'sortiesPassees' => $sortiesPassees,
+            'sortiesParRecherche' => $sortiesParRecherche
         ]);
     }
 }

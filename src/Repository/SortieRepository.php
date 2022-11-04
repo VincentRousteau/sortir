@@ -126,7 +126,7 @@ class SortieRepository extends ServiceEntityRepository
 
         $qb->where('s.nom LIKE ?1')
             ->orderBy('s.dateHeureDebut', 'ASC')
-            ->setParameter(1, $recherche);
+            ->setParameter(1, '%'.$recherche.'%');
 
         return $qb->getQuery()->getResult();
 

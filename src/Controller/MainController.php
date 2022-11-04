@@ -25,6 +25,8 @@ class MainController extends AbstractController
 
         $personne = $this->getUser();
 
+        $sortiesParRecherche = $sortieRepository->findAll();
+
         $sortiesForm = $this->createForm(RechercheFormType::class);
 
         $sortiesForm->handleRequest($request);

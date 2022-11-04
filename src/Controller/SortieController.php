@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\LieuType;
 use App\Form\RechercheFormType;
+use App\Form\RechercheVilleType;
 use App\Form\SortieType;
 use App\Form\VilleType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +34,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/creation', name:"sortie_creation")]
-    public function new(Request $request, EntityManagerInterface $em)
+    public function new(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository)
     {
         $sortie = new Sortie();
         $sortieForm  = $this->createForm(SortieType::class, $sortie);
@@ -39,6 +42,14 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+            if($sortieForm->get('enregistrer')->isClicked()){
+                $sortie->setEtat($etatRepository->findOneByLibelle("En creation"));
+            }
+            elseif($sortieForm->get('publier')->isClicked()){
+                $sortie->setEtat($etatRepository->findOneByLibelle("Ouvert"));
+            }
+
             $em->persist($sortie);
             $em->flush();
             return $this->redirectToRoute('homepage');
@@ -53,41 +64,63 @@ class SortieController extends AbstractController
     public function ajoutLieu(Request $request, EntityManagerInterface $em)
     {
         $lieu = new Lieu();
-        $lieuForme  = $this->createForm(LieuType::class, $lieu);
+        $lieuForm  = $this->createForm(LieuType::class, $lieu);
 
-        $lieuForme->handleRequest($request);
+        $lieuForm->handleRequest($request);
 
-        if($lieuForme->isSubmitted() && $lieuForme->isValid()){
+        if($lieuForm->isSubmitted() && $lieuForm->isValid()){
             $em->persist($lieu);
             $em->flush();
             return $this->redirectToRoute('sortie_creation');
         }
 
         return $this->render("sortie/creationLieu.html.twig", [
-            "lieuForm" => $lieuForme->createView()
+            "lieuForm" => $lieuForm->createView()
         ]);
     }
 
     #[Route('/sortie/ajoutVille', name:"ville_creation")]
-    public function ajoutVille(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository)
+    #[IsGranted('ROLE_ADMIN')]
+    public function ajoutVille(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository, SortieRepository $sortieRepository)
     {
+
         $ville = new Ville();
-        $villeForm  = $this->createForm(VilleType::class);
+        $villeForm  = $this->createForm(VilleType::class, $ville);
         $villeForm->handleRequest($request);
 
         if($villeForm->isSubmitted() && $villeForm->isValid()){
             $em->persist($ville);
             $em->flush();
-            return $this->redirectToRoute('lieu_creation');
         }
 
-        $villes = $villeRepository->findAll();
+        $rechercheVilleForm = $this->createForm(RechercheVilleType::class);
+        $rechercheVilleForm->handleRequest(($request));
+
+        $villesParRecherche = $villeRepository->findAll();
+
+        if ($rechercheVilleForm->isSubmitted()) {
+
+            $recherche = $rechercheVilleForm->get('motCle')->getData();
+            dump($recherche);
+
+            if (!is_null($recherche)) {
+                $villesParRecherche = $villeRepository->findAllCitiesParRecherche($recherche);
+            }
+        }
+
 
         return $this->render("sortie/creationVille.html.twig", [
-            "villeForm" => $villeForm->createView(),
-            "villes" => $villes
+            "rechecherVilleForm" => $rechercheVilleForm->createView(),
+            "villesParRecherche" => $villesParRecherche,
+            "villeForm" => $villeForm->createView()
         ]);
     }
+//
+//    #[Route('/sortie/ajoutVille', name:"ville_creation")]
+//    public function modifVille(){
+//
+//    }
+
 
 
 }

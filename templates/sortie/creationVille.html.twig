@@ -7,21 +7,25 @@
 {% block body %}
     <h1>Ajout d'une ville</h1>
 
-    {{ form_start(villeForm) }}
+    {{ form_start(rechecherVilleForm) }}
 
-        {{ form_row(villeForm.motCle) }}
 
-    <button>Ajouter</button>
 
-    {{ form_end(villeForm) }}
+    {{ form_end(rechecherVilleForm) }}
 
     <div class="listeVilles">
         <ul>
-            {% for ville in villes %}
-                <li>{{ ville.nom }} - {{ ville.codePostal }} </li>
+            {% for ville in villesParRecherche %}
+                <li>{{ ville.nom }} - {{ ville.codePostal }} <a href="#">Modifier</a> - <a href="#">Supprimer</a></li>
             {% endfor %}
         </ul>
     </div>
+
+
+    {{ form_start(villeForm) }}
+        {{ form_widget(villeForm) }}
+    {{ form_end(villeForm) }}
+
 
 
 {% endblock %}

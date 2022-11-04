@@ -39,6 +39,18 @@ class VilleRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllCitiesParRecherche(String $recherche)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->where('c.nom LIKE ?1')
+            ->orderBy('c.nom', 'ASC')
+            ->setParameter(1, "%".$recherche."%");
+
+        return $qb->getQuery()->getResult();
+
+    }
+
 //    /**
 //     * @return Ville[] Returns an array of Ville objects
 //     */

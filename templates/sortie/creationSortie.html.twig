@@ -7,13 +7,41 @@ Ajout d'une sortie
 {% block body %}
 <h1>Ajout d'une sortie</h1>
 
-{{ form_start(sortieForm) }}
+    {{ form_start(sortieForm) }}
 
-    <div class="addPlace"><a href="{{ ajoutLieu }}">Ajout de lieu</a></div>
-{{ form_widget(sortieForm) }}
+        <div>
+            {{ form_row(sortieForm.nom) }}
+        </div>
+    <div>
+        {{ form_row(sortieForm.infosSortie) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.nbInscriptionsMax) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.dateHeureDebut) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.dateLimiteInscription) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.duree) }}
+    </div>
+    <div class="dispoLieuForm">
+        {{ form_row(sortieForm.lieu) }} <div id="addPlace"></div>
+    </div>
+    <div>
+        {{ form_row(sortieForm.campus) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.etat) }}
+    </div>
+    <div>
+        {{ form_row(sortieForm.organisateur) }}
+    </div>
 
-<button>Ajouter</button>
+    <button>Ajouter</button>
 
-{{ form_end(sortieForm) }}
+    {{ form_end(sortieForm) }}
 
 {% endblock %}

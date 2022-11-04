@@ -48,10 +48,12 @@ main{
 }
 
 #addPlace{
-    width: 20px;
-    height: 20px;
-    background-color: red;
-    z-index: 5;
+    width: 30px;
+    height: 30px;
+    border: 2px solid gray;
+    border-radius: 50%;
+    cursor: pointer;
+
 }
 
 footer{

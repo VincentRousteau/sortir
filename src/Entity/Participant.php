@@ -283,19 +283,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-    public function getAvatar()
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar($avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
     public function getPhoto(): ?string
     {
         return $this->photo;

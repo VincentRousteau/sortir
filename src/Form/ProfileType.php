@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Campus;
 use App\Entity\Participant;
+use App\Service\FileUploader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -78,21 +79,35 @@ class ProfileType extends AbstractType
             ])
             ->add('password',PasswordType::class, [
                 'required' => true,
+                'mapped' => false,
                 'label' => 'Mot de passe',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un mot de passe'
-                    ])
-                ]
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
             ])
             ->add('password',PasswordType::class, [
                 'required' => true,
+                'mapped' => false,
                 'label' => 'Confirmation',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez confirmer votre mot de passe'
-                    ])
-                ]
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
             ])
             ->add('campus',EntityType::class, [
                 'required' => true,
@@ -102,12 +117,22 @@ class ProfileType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez choisir un campus'
-                    ])
-                ]
+                    ]),
+                ],
             ])
-            ->add('photo', FileType::class, [
-                'label' => 'Ajouter votre photo',
-                'required'=>false
+            ->add('uploadFile', FileType::class, [
+                'mapped' => false,
+//                'required'=>false,
+//                'constraints' => [
+//                    new ([
+//                        'maxSize' => '2M',
+//                        'mimeTypes' => [
+//                            'image/jpeg',
+//                            'image/png',
+//                        ],
+//                        'mimeTypesMessage' => 'Ajouter votre photo',
+//                    ]),
+//                ],
             ])
 
             ->add('enregistrer',SubmitType::class)

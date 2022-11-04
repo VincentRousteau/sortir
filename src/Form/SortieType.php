@@ -9,6 +9,8 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,14 +33,13 @@ class SortieType extends AbstractType
                 "class" => Campus::class,
                 "choice_label" => "nom"
             ])
-            ->add('etat',EntityType::class, [
-                "class" => Etat::class,
-                "choice_label" => "libelle"
-            ])
             ->add('organisateur',EntityType::class, [
             "class" => Participant::class,
             "choice_label" => "nom"
-            ]);
+            ])
+            ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
+            ->add('publier', SubmitType::class, ['label' => 'Publier'])
+            ->add('save', ResetType::class, ['label' => 'Annuler']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

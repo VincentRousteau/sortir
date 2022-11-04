@@ -33,6 +33,8 @@ class MainController extends AbstractController
 
         $sortiesPassees = $sortieRepository->findAllSortiesPassees($etat);
 
+        $sortiesParRecherche = $sortieRepository->findAll();
+
         $sortiesForm = $this->createForm(RechercheFormType::class);
 
         $sortiesForm->handleRequest($request);

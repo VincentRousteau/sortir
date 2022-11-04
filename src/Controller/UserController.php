@@ -3,11 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
-use App\Form\ProfileType;
+use App\Form\EditProfileType;
 use App\Repository\ParticipantRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,9 +15,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
-    /**
-    *@[Route('/user/account', name: 'new_profile')]
-    */
+
+    #[Route('/user/account', name: 'show_profile')]
 
     public function profile(Participant $user): Response
     {
@@ -31,7 +29,7 @@ class UserController extends AbstractController
             ]);
     }
 
-
+    #[Route('/user/edit', name: 'edit_profile')]
 
     public function new(AuthenticationUtils $authenticationUtils, ParticipantRepository $participantRepository, Request $request, FileUploader $fileUploader, EntityManagerInterface $em): Response
     {
@@ -44,10 +42,11 @@ class UserController extends AbstractController
         $personne = $participantRepository->findOneByEmail($email);
         $profile = new Participant();
         $profile->setDateCreated(new \DateTime());
-        $profileForm = $this->createForm(ProfileType::class, $personne, [
-            'action' => $this->generateUrl('app_user_profile'),
+        $profileForm = $this->createForm(EditProfileType::class, $personne, [
+            'action' => $this->generateUrl('user_edit'),
             'method' => 'GET',
         ]);
+        //return $this->redirectToRoute('user_profile', ["id" => $user->getId()]);
 
 
         //Récupération du contenu des champs à charger dans l'objet $profile.
@@ -67,7 +66,7 @@ class UserController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Informations correctement enregistrées !');
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('user_account');
         }
 
         return $this->render('user/account.html.twig', [

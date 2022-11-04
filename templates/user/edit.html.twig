@@ -8,10 +8,10 @@
     <div class="row">
         <div class="col-sm-4">
             <div id="profile_pic">
-                {% if app.user.picture %}
-                    <img src="{{ asset('uploads/profiles/'~app.user.picture) }}" alt="{{ app.user.firstname }} {{ app.user.lastname }}">
+                {% if app.user.photo %}
+                    <img src="{{ asset('images/avatars'~app.user.photo) }}" alt="{{ app.user.prenom }} {{ app.user.nom }}">
                 {% else %}
-                    <img src="{{ asset('img/profile-default.jpg') }}" alt="Photo par défaut">
+                    <img src="{{ asset('images/avatars/avataaars(1).png') }}" alt="Photo par défaut">
                 {% endif %}
             </div>
             <a href="{{ path('user_upload') }}">Changer ma photo</a><br>

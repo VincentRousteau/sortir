@@ -17,9 +17,9 @@
     </div>
 
     {% if app.user == user %}
-        <a href="{{ path('app_user_profile') }}">Modifier mon profil</a><br>
-        <a href="{{ path('app_user_profile') }}">Modifier mon image</a><br>
-        <a href="{{ path('app_user_profile') }}">Modifier mon mot de passe</a>
+        <a href="{{ path('app_user_account') }}">Modifier mon profil</a><br>
+        <a href="{{ path('app_user_account') }}">Modifier mon image</a><br>
+        <a href="{{ path('app_user_account') }}">Modifier mon mot de passe</a>
     {% endif %}
 {% endblock %}
 

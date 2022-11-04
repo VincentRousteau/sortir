@@ -10,14 +10,14 @@
     <p>Date du jour : {{ 'now'|date('d/m/Y') }}</p>
     <p>{{ personne.prenom~' '~personne.nom }}</p>
 
-    {{ form_start(sortiesForm) }}
+    {{ form_start(formulaire }}
 
-    {{ form_widget(sortiesForm) }}
+    {{ form_widget(formulaire) }}
 
-    {{ form_end(sortiesForm) }}
+    {{ form_end(formulaire) }}
 
 
-    <p>Giga requête de ses mort de merde : </p>
+    <p>Liste des sorties : </p>
     <ul>
         {% for sortie in toutesLesSorties %}
             <li>

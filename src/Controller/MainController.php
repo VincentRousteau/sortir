@@ -3,76 +3,88 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Form\EntiteFormulaire;
 use App\Form\RechercheFormType;
+use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
-use App\Repository\ParticipantRepository;
 use App\Entity\Participant;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use function PHPUnit\Framework\isNull;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'homepage', methods: ['GET', 'POST'])]
-    public function index(Request $request, ParticipantRepository $participantRepository, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
+    public function index(Request $request, AuthenticationUtils $authenticationUtils, EntityManager $em, ParticipantRepository $participantRepository, SortieRepository $sortieRepository): Response
     {
-        $email = $this->getUser()->getUserIdentifier();
+        $email = $authenticationUtils->getLastUsername();
+        $personne = $participantRepository->findOneByEmail($email);
 
-        //$personne = $participantRepository->findOneByEmail($email);
+        $entiteFormulaire = new EntiteFormulaire();
+        $form = $this->createForm(RechercheFormType::class, $entiteFormulaire);
 
-        $personne = $this->getUser();
+        $form->handleRequest($request);
 
-        $sortiesParRecherche = $sortieRepository->findAll();
+        if($form->isSubmitted()){
+            $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($entiteFormulaire, $personne);
+        }else{
 
-        $sortiesForm = $this->createForm(RechercheFormType::class);
-
-        $sortiesForm->handleRequest($request);
-
-        if ($sortiesForm->isSubmitted()) {
-
-            $campus = $sortiesForm->get('campus')->getData();
-
-            $recherche = $sortiesForm->get('recherche')->getData();
-
-            $dateDebut = $sortiesForm->get('dateDebut')->getData();
-
-            $dateFin = $sortiesForm->get('dateFin')->getData();
-
-            $sortiesOrganisees = $sortiesForm->get('sortiesOrganisees')->getData();
-            $orga = new Participant();
-            if ($sortiesOrganisees) {
-                $orga = $personne;
-            }
-
-            $inscrit = new Participant();
-            $sortiesInscrit = $sortiesForm->get('sortiesInscrit')->getData();
-            if ($sortiesInscrit) {
-                $inscrit = $personne;
-            }
-
-            $nonInscrit = new Participant();
-            $sortiesNonInscrit = $sortiesForm->get('sortiesNonInscrit')->getData();
-            if ($sortiesNonInscrit) {
-                $nonInscrit = $personne;
-            }
-
-            $etat = new Etat();
-            $sortiesPassees = $sortiesForm->get('sortiesPassees')->getData();
-            if ($sortiesPassees) {
-                $etat = $etatRepository->findOneByLibelle('Passé');
-            }
-
-            $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($campus, $recherche, $dateDebut, $dateFin, $orga, $inscrit, $nonInscrit, $etat);
-
-            return $this->render('main/home.html.twig', [
-                'personne' => $personne,
-                'sortiesForm' => $sortiesForm->createView(),
-                'toutesLesSorties' => $sorties,
-            ]);
         }
-    }
 
+
+        //$sorties=$sortieRepository->findSortieByCampus($campusUser);
+
+//        $sortiesForm = $this->createForm(RechercheFormType::class);
+//        $sortiesForm->handleRequest($request);
+//
+//        if ($sortiesForm->isSubmitted()) {
+//
+//            $campus = $sortiesForm->get('campus')->getData();
+//
+//            $recherche = $sortiesForm->get('recherche')->getData();
+//
+//            $dateDebut = $sortiesForm->get('dateDebut')->getData();
+//
+//            $dateFin = $sortiesForm->get('dateFin')->getData();
+//
+//            $sortiesOrganisees = $sortiesForm->get('sortiesOrganisees')->getData();
+//            $orga = new Participant();
+//            if ($sortiesOrganisees) {
+//                $orga = $personne;
+//            }
+//
+//            $inscrit = new Participant();
+//            $sortiesInscrit = $sortiesForm->get('sortiesInscrit')->getData();
+//            if ($sortiesInscrit) {
+//                $inscrit = $personne;
+//            }
+//
+//            $nonInscrit = new Participant();
+//            $sortiesNonInscrit = $sortiesForm->get('sortiesNonInscrit')->getData();
+//            if ($sortiesNonInscrit) {
+//                $nonInscrit = $personne;
+//            }
+//
+//            $etat = new Etat();
+//            $sortiesPassees = $sortiesForm->get('sortiesPassees')->getData();
+//            if ($sortiesPassees) {
+//                $etat = $etatRepository->findOneByLibelle('Passé');
+//            }
+//
+//            $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($campus, $recherche, $dateDebut, $dateFin, $orga, $inscrit, $nonInscrit, $etat);
+//
+//        }
+
+        return $this->render('main/home.html.twig', [
+            'personne' => $personne,
+            //'sortiesForm' => $sortiesForm->createView(),
+            'formulaire' => $form,
+            'toutesLesSorties' => $sorties,
+        ]);
+    }
 }

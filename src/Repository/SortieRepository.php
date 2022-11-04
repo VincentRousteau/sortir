@@ -6,9 +6,9 @@ use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Form\EntiteFormulaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -43,56 +43,55 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-
-    public function gigaRequeteDeSesMortsDeMerde(Campus $campus, $recherche, \DateTime $dateDebut, \DateTime $dateFin, Participant $orga, Participant $inscrit, Participant $nonInscrit, Etat $passe)
+    public function gigaRequeteDeSesMortsDeMerde(EntiteFormulaire $entiteFormulaire, Participant $user)
     {
         $qb = $this->createQueryBuilder('s');
 
-        if (!is_null($inscrit->getNom())) {
+        if (!is_null($entiteFormulaire->getSortiesInscrit())) {
 
             $qb->addSelect('p')
                 ->innerJoin('s.participants', 'p')
                 ->andWhere('p = ?1')
-                ->setParameter(1, $inscrit);
+                ->setParameter(1, $user);
         }
 
-        if (!is_null($orga->getNom())) {
+        if (!is_null($entiteFormulaire->getSortiesOrganisees())) {
 
             $qb->addSelect('o')
                 ->innerJoin('s.organisateur', 'o')
                 ->andWhere('o = ?2')
-                ->setParameter(2, $orga);
+                ->setParameter(2, $user);
         }
 
-        if (!is_null($nonInscrit->getNom())) {
+        if (!is_null($entiteFormulaire->getSortiesNonInscrit())) {
 
             $qb->addSelect('np')
                 ->innerJoin('s.participants', 'np')
                 ->andWhere('?3 NOT MEMBER OF s.participants')
-                ->setParameter(3, $nonInscrit);
+                ->setParameter(3, $user);
         }
 
-        if (!is_null($recherche)) {
+        if (!is_null($entiteFormulaire->getRecherche())) {
 
             $qb->andWhere('s.nom LIKE ?4')
-                ->setParameter(4, '%' . $recherche . '%');
+                ->setParameter(4, '%' . $entiteFormulaire->getRecherche() . '%');
         }
 
         $qb->andWhere('s.dateHeureDebut > ?5')
-            ->setParameter(5, $dateDebut);
+            ->setParameter(5, $entiteFormulaire->getDateDebut());
 
         $qb->andWhere('s.dateHeureDebut < ?6')
-            ->setParameter(6, $dateFin);
+            ->setParameter(6, $entiteFormulaire->getDateFin());
 
-        if (!is_null($passe->getLibelle())) {
+        if (!is_null($entiteFormulaire->getSortiesPasses())) {
 
             $qb->andWhere('s.etat = ?7')
-                ->setParameter(7, $passe);
+                ->setParameter(7, "passé");
         }
 
         $qb->andWhere('s.campus = ?8')
             ->orderBy('s.dateHeureDebut', 'ASC')
-            ->setParameter(8, $campus);
+            ->setParameter(8, $entiteFormulaire->getCampus());
 
         return $qb->getQuery()->getResult();
     }

@@ -43,104 +43,12 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Sortie[] Returns an array of Sortie objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?Sortie
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
-
-//    public function findAllSortiesOrganisees(Participant $personne)
-//    {
-//        $qb = $this->createQueryBuilder('s');
-//
-//        $qb->addSelect('o')
-//            ->innerJoin('s.organisateur', 'o')
-//            ->where('o = ?1')
-//            ->orderBy('s.dateHeureDebut', 'ASC')
-//            ->setParameter(1, $personne);
-//
-//        return $qb->getQuery()->getResult();
-//    }
-//
-//    public function findAllsortiesInscrites(Participant $personne)
-//    {
-//        $qb = $this->createQueryBuilder('s');
-//
-//        $qb->addSelect('p')
-//            ->innerJoin('s.participants', 'p')
-//            ->where('p = ?1')
-//            ->orderBy('s.dateHeureDebut', 'ASC')
-//            ->setParameter(1, $personne);
-//
-//        return $qb->getQuery()->getResult();
-//
-//    }
-//
-//    public function findAllsortiesNonInscrites(Participant $personne)
-//    {
-//        $qb = $this->createQueryBuilder('s');
-//
-//        $qb->addSelect('p')
-//            ->innerJoin('s.participants', 'p')
-//            ->where('?1 NOT MEMBER OF s.participants')
-//            ->orderBy('s.dateHeureDebut', 'ASC')
-//            ->setParameter(1, $personne);
-//
-//        return $qb->getQuery()->getResult();
-//
-//    }
-//
-//    public function findAllsortiesPassees(Etat $etat)
-//    {
-//        $qb = $this->createQueryBuilder('s');
-//
-//        $qb->addSelect('p')
-//            ->innerJoin('s.participants', 'p')
-//            ->where('s.etat = ?1')
-//            ->orderBy('s.dateHeureDebut', 'ASC')
-//            ->setParameter(1, $etat);
-//
-//        return $qb->getQuery()->getResult();
-//
-//    }
-//
-//    public function findAllsortiesParRecherche(string $recherche)
-//    {
-//        $qb = $this->createQueryBuilder('s');
-//
-//        $qb->where('s.nom LIKE ?1')
-//            ->orderBy('s.dateHeureDebut', 'ASC')
-//            ->setParameter(1, '%' . $recherche . '%');
-//
-//        return $qb->getQuery()->getResult();
-//
-//    }
-
-    public function gigaRequeteDeSesMortsDeMerde(Campus $campus, string $recherche, \DateTime $dateDebut, \DateTime $dateFin, Participant $orga, Participant $inscrit, Participant $nonInscrit, Etat $passe)
+    public function gigaRequeteDeSesMortsDeMerde(Campus $campus, $recherche, \DateTime $dateDebut, \DateTime $dateFin, Participant $orga, Participant $inscrit, Participant $nonInscrit, Etat $passe)
     {
         $qb = $this->createQueryBuilder('s');
 
-        if (!is_null($inscrit)) {
+        if (!is_null($inscrit->getNom())) {
 
             $qb->addSelect('p')
                 ->innerJoin('s.participants', 'p')
@@ -148,7 +56,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter(1, $inscrit);
         }
 
-        if (!is_null($orga)) {
+        if (!is_null($orga->getNom())) {
 
             $qb->addSelect('o')
                 ->innerJoin('s.organisateur', 'o')
@@ -156,7 +64,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter(2, $orga);
         }
 
-        if (!is_null($nonInscrit)) {
+        if (!is_null($nonInscrit->getNom())) {
 
             $qb->addSelect('np')
                 ->innerJoin('s.participants', 'np')
@@ -170,24 +78,17 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter(4, '%' . $recherche . '%');
         }
 
-        if (!is_null($dateDebut)) {
+        $qb->andWhere('s.dateHeureDebut > ?5')
+            ->setParameter(5, $dateDebut);
 
-            $qb->andWhere('s.dateHeureDebut > ?5')
-                ->setParameter(5, $dateDebut);
-        }
+        $qb->andWhere('s.dateHeureDebut < ?6')
+            ->setParameter(6, $dateFin);
 
-        if (!is_null($dateFin)) {
+        if (!is_null($passe->getLibelle())) {
 
-            $qb->andWhere('s.dateHeureDebut < ?6')
-                ->setParameter(6, $dateFin);
-        }
-
-        if (!is_null($passe)) {
-
-            $qb->andWhere('s.etat < ?7')
+            $qb->andWhere('s.etat = ?7')
                 ->setParameter(7, $passe);
         }
-
 
         $qb->andWhere('s.campus = ?8')
             ->orderBy('s.dateHeureDebut', 'ASC')

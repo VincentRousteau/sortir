@@ -16,66 +16,12 @@
 
     {{ form_end(sortiesForm) }}
 
-{#    <p>Sorties organisées :</p>#}
-{#    <ul>#}
-{#        {% for sortie in sortiesOrganisees %}#}
-{#            <li>#}
-{#                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes' }}#}
-{#            </li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-
-{#    <br>#}
-
-{#    <p>Sorties auxquelles je participe : </p>#}
-{#    <ul>#}
-{#        {% for sortie in sortiesParticipees %}#}
-{#            <li>#}
-{#                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes' }}#}
-{#            </li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-
-{#    <br>#}
-
-{#    <p>Sorties auxquelles je ne participe pas : </p>#}
-{#    <ul>#}
-{#        {% for sortie in sortiesNonParticipees %}#}
-{#            <li>#}
-{#                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes' }}#}
-{#            </li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-
-{#    <br>#}
-
-{#    <p>Sorties passées : </p>#}
-{#    <ul>#}
-{#        {% for sortie in sortiesPassees %}#}
-{#            <li>#}
-{#                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes' }}#}
-{#            </li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-
-{#    <br>#}
-
-{#    <p>Sorties par recherche : </p>#}
-{#    <ul>#}
-{#        {% for sortie in sortiesParRecherche %}#}
-{#            <li>#}
-{#                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes' }}#}
-{#            </li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-
-{#    <br>#}
 
     <p>Giga requête de ses mort de merde : </p>
     <ul>
         {% for sortie in toutesLesSorties %}
             <li>
-                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes' }}
+                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes, orga : '~sortie.organisateur.nom~', état : '~sortie.etat.libelle }}
             </li>
         {% endfor %}
     </ul>

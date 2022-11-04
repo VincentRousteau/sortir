@@ -23,15 +23,15 @@ class MainController extends AbstractController
 
         $personne = $participantRepository->findOneByEmail($email);
 
-        $etat = $etatRepository->findOneByLibelle('Passé');
-
-        $sortiesOrganisees = $sortieRepository->findAllSortiesOrganisees($personne);
-
-        $sortiesParticipees = $sortieRepository->findAllSortiesInscrites($personne);
-
-        $sortiesNonParticipees = $sortieRepository->findAllSortiesNonInscrites($personne);
-
-        $sortiesPassees = $sortieRepository->findAllSortiesPassees($etat);
+//        $sortiesOrganisees = $sortieRepository->findAllSortiesOrganisees($personne);
+//
+//        $sortiesParticipees = $sortieRepository->findAllSortiesInscrites($personne);
+//
+//        $sortiesNonParticipees = $sortieRepository->findAllSortiesNonInscrites($personne);
+//
+//        $sortiesPassees = $sortieRepository->findAllSortiesPassees($etat);
+//
+//        $sortiesParRecherche = $sortieRepository->findAll();
 
         $sortiesForm = $this->createForm(RechercheFormType::class);
 
@@ -39,25 +39,70 @@ class MainController extends AbstractController
 
         if ($sortiesForm->isSubmitted()) {
 
+            $campus = $sortiesForm->get('campus')->getData();
+            dump($campus);
+
             $recherche = $sortiesForm->get('recherche')->getData();
             dump($recherche);
 
-            if (is_null($recherche)) {
-                $sortiesParRecherche = $sortieRepository->findAll();
-            } else {
-                $sortiesParRecherche = $sortieRepository->findAllSortiesParRecherche($recherche);
+            $dateDebut = $sortiesForm->get('dateDebut')->getData();
+            dump($dateDebut);
+
+            $dateFin = $sortiesForm->get('dateFin')->getData();
+            dump($dateFin);
+
+            $sortiesOrganisees = $sortiesForm->get('sortiesOrganisees')->getData();
+            dump($sortiesOrganisees);
+            $orga=new Participant();
+            if ( $sortiesOrganisees){
+                $orga=$personne;
             }
+
+            $inscrit=new Participant();
+            $sortiesInscrit = $sortiesForm->get('sortiesInscrit')->getData();
+            dump($sortiesInscrit);
+            if ($sortiesInscrit){
+                $inscrit=$personne;
+            }
+
+            $nonInscrit=new Participant();
+            $sortiesNonInscrit = $sortiesForm->get('sortiesNonInscrit')->getData();
+            dump($sortiesNonInscrit);
+            if ($sortiesNonInscrit){
+                $nonInscrit=$personne;
+            }
+
+            $etat=new Etat();
+            $sortiesPassees = $sortiesForm->get('sortiesPassees')->getData();
+            dump($sortiesPassees);
+            if ($sortiesPassees){
+                $etat = $etatRepository->findOneByLibelle('Passé');
+            }
+
+            dump($orga);
+            dump($inscrit);
+            dump($nonInscrit);
+            dump($etat);
+
+            $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($campus, $recherche, $dateDebut, $dateFin, $orga, $inscrit, $nonInscrit, $etat);
+
+//            if (is_null($recherche)) {
+//                $sortiesParRecherche = $sortieRepository->findAll();
+//            } else {
+//                $sortiesParRecherche = $sortieRepository->findAllSortiesParRecherche($recherche);
+//            }
         }
 
 
         return $this->render('main/home.html.twig', [
             'personne' => $personne,
             'sortiesForm' => $sortiesForm->createView(),
-            'sortiesOrganisees' => $sortiesOrganisees,
-            'sortiesParticipees' => $sortiesParticipees,
-            'sortiesNonParticipees' => $sortiesNonParticipees,
-            'sortiesPassees' => $sortiesPassees,
-            'sortiesParRecherche' => $sortiesParRecherche
+            'toutesLesSorties'=>$sorties,
+//            'sortiesOrganisees' => $sortiesOrganisees,
+//            'sortiesParticipees' => $sortiesParticipees,
+//            'sortiesNonParticipees' => $sortiesNonParticipees,
+//            'sortiesPassees' => $sortiesPassees,
+//            'sortiesParRecherche' => $sortiesParRecherche
         ]);
     }
 }

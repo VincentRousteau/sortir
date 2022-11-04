@@ -80,9 +80,4 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function findOneByEmail(string $email)
-    {
-    }
-
-
 }

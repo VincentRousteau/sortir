@@ -72,7 +72,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie4->setInfosSortie("Sortie à la piscine");
         $sortie4->setLieu($this->getReference("gaumont"));
         $sortie4->setCampus($this->getReference("nantes"));
-        $sortie4->setEtat($this->getReference("historise"));
+        $sortie4->setEtat($this->getReference("passe"));
         $sortie4->setOrganisateur($this->getReference("ludo"));
         $sortie4->addParticipant($this->getReference("ludo"));
 

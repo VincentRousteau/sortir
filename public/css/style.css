@@ -1,3 +1,7 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;800&display=swap');
+
+
 *{
     margin: 0;
     padding: 0;
@@ -8,6 +12,9 @@
 
 a{
     color: inherit;
+}
+h3{
+    font-size: 2rem;
 }
 
 
@@ -26,6 +33,7 @@ header{
     width: 100%;
     display: flex;
     align-items: center;
+    color: #ccc;
 }
 
 nav{
@@ -45,6 +53,252 @@ nav ul{
 
 main{
     flex-grow: 2;
+    width: 100%;
+    margin: 50px 20px;
+}
+/*----------------Formulaire de recherche---------------------*/
+#recherche_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+button{
+    background: transparent;
+    min-width: 200px;
+    padding: 15px;
+    font-family: poppins;
+    font-size: 1rem;
+    position: relative;
+    border: none;
+    cursor: pointer;
+}
+
+button::before, button::after{
+    content:"";
+    position: absolute;
+    border: 2px solid #1e272e;
+    left: 0;
+    bottom: 0;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    z-index: -1;
+    transition: transform .3s ease;
+}
+
+button:hover::before{
+    transform: translate(-5px, -5px);
+}
+
+button:hover::after{
+    transform: translate(5px, 5px);
+}
+
+.champsDeRecherche{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: poppins;
+    width: 100%;
+    margin: 30px;
+}
+
+.rechercheInput, .rechercheCheckbox{
+    width: 50%;
+    padding: 10px 40px;
+}
+
+.rechercheInput div, .rechercheCheckbox div{
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rechercheInput label{
+    display: inline-block;
+    width: 30%;
+    font-size: 1.2rem;
+}
+
+.rechercheInput input, .rechercheInput select{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 30px;
+    text-align: center;
+    border: none;
+    font-size: .8rem;
+}
+
+.rechercheInput select{
+    appearance: none;
+    border: 1px solid gray;
+    border-radius: 0;
+    padding-left: 10px;
+
+}
+
+.rechercheInput input{
+    border-bottom: 1px solid gray;
+}
+
+#recherche_form_submit{
+    text-align: center;
+}
+
+/* ---------SortieCard---------------*/
+
+.gridCards ul{
+    display: grid;
+    grid-template-columns: repeat( auto-fill, minmax(300px, 1fr) );
+    grid-gap: 30px;
+}
+
+.gridCards li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sortieCard_Wrapper{
+    width: 300px;
+    height: 450px;
+    position: relative;
+}
+
+.sortieCard {
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 28% 51%, rgba(206, 206, 206,0.03) 0%, rgba(206, 206, 206,0.03) 17%,transparent 17%, transparent 100%),radial-gradient(circle at 45% 10%, rgba(10, 10, 10,0.03) 0%, rgba(10, 10, 10,0.03) 45%,transparent 45%, transparent 100%),radial-gradient(circle at 48% 44%, rgba(74, 74, 74,0.03) 0%, rgba(74, 74, 74,0.03) 84%,transparent 84%, transparent 100%),radial-gradient(circle at 47% 50%, rgba(186, 186, 186,0.03) 0%, rgba(186, 186, 186,0.03) 23%,transparent 23%, transparent 100%),radial-gradient(circle at 29% 70%, rgba(9, 9, 9,0.03) 0%, rgba(9, 9, 9,0.03) 32%,transparent 32%, transparent 100%),radial-gradient(circle at 2% 75%, rgba(179, 179, 179,0.03) 0%, rgba(179, 179, 179,0.03) 19%,transparent 19%, transparent 100%),radial-gradient(circle at 2% 36%, rgba(26, 26, 26,0.03) 0%, rgba(26, 26, 26,0.03) 1%,transparent 1%, transparent 100%),radial-gradient(circle at 53% 70%, rgba(90, 90, 90,0.03) 0%, rgba(90, 90, 90,0.03) 55%,transparent 55%, transparent 100%),radial-gradient(circle at 28% 92%, rgba(31, 31, 31,0.03) 0%, rgba(31, 31, 31,0.03) 35%,transparent 35%, transparent 100%),linear-gradient(90deg, rgb(255,255,255),rgb(255,255,255));
+    background-size: 100%;
+    transition: all .1s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    font-family: poppins;
+}
+
+.sortieCard::after{
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: #30336b;
+    border-radius: 50%;
+    top: -50%;
+    right: -50%;
+    transition: all .3s ease-in-out;
+    opacity: .8
+}
+
+.sortieCard_Wrapper .sortieCard:hover{
+    background-size: 150%;
+}
+
+.sortieCard:hover::after{
+    width: 800px;
+    height: 800px;
+    top: -150%;
+    right: -30%;
+}
+
+.green{
+    background: #badc58;
+}
+
+.blue{
+    background: #4834d4;
+}
+
+.red{
+    background: #eb4d4b;
+}
+
+.yellow{
+    background: #f9ca24;
+}
+
+.card_etat{
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    color: #fff;
+    top: 50px;
+    right: -20px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card_infos{
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all .3s ease-in-out;
+    z-index: 1000;
+}
+
+.sortieCard_Wrapper:hover .card_infos{
+    color: #fff;
+    top: 30%;
+}
+
+.sortieCardBack{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    bottom: -100%;
+    opacity: .6;
+    transition: all .3s ease-in-out;
+}
+
+.buttons{
+    position: absolute;
+    width: 100%;
+    height: 200px;
+    bottom: -100px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    transition: all .2s ease-in-out;
+    transition-delay: .2s;
+}
+
+.sortieCard_Wrapper:hover .buttons{
+    bottom: 0;
+}
+
+.buttons a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 50px;
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+
+
+.card_infos_back{
+    color: #fff;
+}
+
+.sortieCard_Wrapper:hover .sortieCardBack{
+    bottom: 0;
 }
 
 #addPlace{
@@ -53,7 +307,6 @@ main{
     border: 2px solid gray;
     border-radius: 50%;
     cursor: pointer;
-
 }
 
 footer{

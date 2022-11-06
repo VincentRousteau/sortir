@@ -25,36 +25,39 @@ class RechercheFormType extends AbstractType
             ])
             ->add('recherche', TextType::class, [
                 'mapped'=>false,
-                'label' => 'Le nom de la sortie contient :',
+                'label' => 'Recherche',
+                'attr' => array(
+                    'placeholder' => 'Mot clé'
+                ),
                 'required' => false
             ])
             ->add('dateDebut', DateType::class, [
                 'mapped'=>false,
-                'label' => 'Entre le'
+                'widget' => 'single_text',
             ])
             ->add('dateFin', DateType::class, [
                 'mapped'=>false,
-                'label' => 'et le'
+                'widget' => 'single_text'
             ])
             ->add('sortiesOrganisees', CheckboxType::class, [
                 'mapped'=>false,
-                'label' => 'Sorties dont je suis l\'organisateur/trice',
+                'label' => 'Je suis l\'organisateur',
                 'required' => false
             ])
             ->add('sortiesInscrit', CheckboxType::class, [
                 'mapped'=>false,
-                'label' => 'Sorties auxquelles je suis inscrit/e',
+                'label' => 'Je suis inscrit/e',
                 'required' => false
             ])
             ->add('sortiesNonInscrit', CheckboxType::class, [
                 'mapped'=>false,
-                'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
+                'label' => 'Je ne suis pas inscrit/e',
                 'required' => false
 
             ])
             ->add('sortiesPassees', CheckboxType::class, [
                 'mapped'=>false,
-                'label' => 'Sorties passées',
+                'label' => 'Sorties passes',
                 'required' => false
             ])
             ->add('submit', SubmitType::class, [

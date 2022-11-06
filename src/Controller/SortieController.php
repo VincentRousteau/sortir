@@ -34,7 +34,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/creation', name:"sortie_creation")]
-    public function new(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository)
+    public function new(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository):Response
     {
         $sortie = new Sortie();
         $sortieForm  = $this->createForm(SortieType::class, $sortie);
@@ -61,7 +61,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/ajoutLieu', name:"lieu_creation")]
-    public function ajoutLieu(Request $request, EntityManagerInterface $em)
+    public function ajoutLieu(Request $request, EntityManagerInterface $em):Response
     {
         $lieu = new Lieu();
         $lieuForm  = $this->createForm(LieuType::class, $lieu);
@@ -81,7 +81,7 @@ class SortieController extends AbstractController
 
     #[Route('/sortie/ajoutVille', name:"ville_creation")]
     #[IsGranted('ROLE_ADMIN')]
-    public function ajoutVille(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository, SortieRepository $sortieRepository)
+    public function ajoutVille(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository, SortieRepository $sortieRepository):Response
     {
 
         $ville = new Ville();

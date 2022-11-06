@@ -66,13 +66,19 @@ class MainController extends AbstractController
             }
 
             $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($campus, $recherche, $dateDebut, $dateFin, $orga, $inscrit, $nonInscrit, $etat);
-
+            
             return $this->render('main/home.html.twig', [
                 'personne' => $personne,
                 'sortiesForm' => $sortiesForm->createView(),
                 'toutesLesSorties' => $sorties,
             ]);
         }
+
+        //Todo A checker pr Vincent
+        return $this->render('main/home.html.twig', [
+            'sortiesForm' => $sortiesForm->createView(),
+            'toutesLesSorties' => $sortiesParRecherche,
+        ]);
     }
 
 }

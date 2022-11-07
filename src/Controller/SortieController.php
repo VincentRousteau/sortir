@@ -122,7 +122,9 @@ class SortieController extends AbstractController
 
         $sortie->addParticipant($user);
 
-
+        return $this->redirectToRoute('sortie_detail', [
+            "id" => $id
+        ]);
 
     }
 

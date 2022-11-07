@@ -23,25 +23,30 @@ class RechercheFormType extends AbstractType
                 'class'=> Campus::class
             ])
             ->add('recherche', TextType::class, [
-                'label' => 'Le nom de la sortie contient :',
+                'label' => 'Recherche',
+                'attr' => array(
+                    'placeholder' => 'Mot clé'
+                ),
                 'required' => false
             ])
             ->add('dateDebut', DateType::class, [
-                'label' => 'Entre le'
+                'label' => 'Entre le',
+                'widget' => 'single_text',
             ])
             ->add('dateFin', DateType::class, [
-                'label' => 'et le'
+                'label' => 'et le',
+                'widget' => 'single_text',
             ])
             ->add('sortiesOrganisees', CheckboxType::class, [
-                'label' => 'Sorties dont je suis l\'organisateur/trice',
+                'label' => 'Je suis l\'organisateur',
                 'required' => false
             ])
             ->add('sortiesInscrit', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je suis inscrit/e',
+                'label' => 'Je suis inscrit/e',
                 'required' => false
             ])
             ->add('sortiesNonInscrit', CheckboxType::class, [
-                'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
+                'label' => 'Je ne suis pas inscrit/e',
                 'required' => false
 
             ])

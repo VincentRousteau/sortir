@@ -45,27 +45,31 @@ class SortieRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s');
 
+        $qb->addSelect('p')
+            ->innerJoin('s.participants', 'p')
+            ->addSelect('o')
+            ->innerJoin('s.organisateur', 'o')
+            ->addSelect('np')
+            ->innerJoin('s.participants', 'np')
+            ->addSelect('e')
+            ->innerJoin('s.etat','e');
+
+
         if ($entiteFormulaire->getSortiesInscrit()) {
 
-            $qb->addSelect('p')
-                ->innerJoin('s.participants', 'p')
-                ->andWhere('p = ?1')
+            $qb->andWhere('p = ?1')
                 ->setParameter(1, $user);
         }
 
         if ($entiteFormulaire->getSortiesOrganisees()) {
 
-            $qb->addSelect('o')
-                ->innerJoin('s.organisateur', 'o')
-                ->andWhere('o = ?2')
+            $qb->andWhere('o = ?2')
                 ->setParameter(2, $user);
         }
 
         if ($entiteFormulaire->getSortiesNonInscrit()) {
 
-            $qb->addSelect('np')
-                ->innerJoin('s.participants', 'np')
-                ->andWhere('?3 NOT MEMBER OF s.participants')
+            $qb->andWhere('?3 NOT MEMBER OF s.participants')
                 ->setParameter(3, $user);
         }
 
@@ -96,6 +100,10 @@ class SortieRepository extends ServiceEntityRepository
 
             $qb->andWhere('s.etat = ?7')
                 ->setParameter(7, "passé");
+        }
+
+        if (is_null($entiteFormulaire->getCampus())) {
+            $entiteFormulaire->setCampus($user->getCampus());
         }
 
         $qb->andWhere('s.campus = ?8')

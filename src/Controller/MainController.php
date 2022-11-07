@@ -22,10 +22,6 @@ class MainController extends AbstractController
 
         $form->handleRequest($request);
 
-        if (!$form->isSubmitted()) {
-            $entiteFormulaire->setCampus($personne->getCampus());
-        }
-
         $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($entiteFormulaire, $personne);
 
         return $this->render('main/home.html.twig', [

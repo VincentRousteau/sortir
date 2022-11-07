@@ -53,7 +53,6 @@ class RechercheFormType extends AbstractType
                 'mapped'=>false,
                 'label' => 'Je ne suis pas inscrit/e',
                 'required' => false
-
             ])
             ->add('sortiesPassees', CheckboxType::class, [
                 'mapped'=>false,

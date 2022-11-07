@@ -19,7 +19,8 @@
                 {{ form_row(sortiesForm.dateFin) }}
             </div>
             <div class="rechercheCheckbox">
-                {{ form_row(sortiesForm.sortiesOrganisees) }}
+                {{ form_widget(sortiesForm.sortiesOrganisees) }}
+                {{ form_label(sortiesForm.sortiesOrganisees) }}
                 {{ form_row(sortiesForm.sortiesInscrit) }}
                 {{ form_row(sortiesForm.sortiesNonInscrit) }}
                 {{ form_row(sortiesForm.sortiesPassees) }}
@@ -59,7 +60,7 @@
                                 <div class="card_infos_back">
                                     <div class="buttons">
                                         <a href="">+ d'infos</a>
-                                        <a href="">S'inscrire</a>
+                                        <a href="{{ path('addParticipant/' ~ sortie.id) }}">S'inscrire</a>
                                     </div>
                                 </div>
                             </div>

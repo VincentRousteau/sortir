@@ -19,5 +19,8 @@ for (const etat of etats) {
         case 'En cours':
             etat.classList.add("yellow");
             break;
+        case 'Historisé':
+            etat.classList.add("lightgrey");
+            break;
     }
 }

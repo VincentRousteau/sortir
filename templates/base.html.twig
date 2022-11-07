@@ -14,7 +14,9 @@
         <div class="container">
             <header>
                 <img src="{{ asset('images/logo_ENI_pt.svg') }}" alt="Sortir" height="150 px">
-                {% include 'inc/_nav.html.twig' %}
+                {% block nav %}
+                    {% include 'inc/_nav.html.twig' %}
+                {% endblock %}
             </header>
             <main>
                 {% block body %}{% endblock %}

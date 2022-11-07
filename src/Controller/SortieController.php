@@ -115,12 +115,18 @@ class SortieController extends AbstractController
             "villeForm" => $villeForm->createView()
         ]);
     }
-//
-//    #[Route('/sortie/ajoutVille', name:"ville_creation")]
-//    public function modifVille(){
-//
-//    }
 
+    #[Route('/sortie/addparticipant/{id}', name:"addParticipant")]
+    public function addParticipant(int $id, SortieRepository $sortieRepository)
+    {
+        $user = $this->getUser();
+        $sortie = $sortieRepository->find($id);
+
+        $sortie->addParticipant($user);
+
+
+
+    }
 
 
 }

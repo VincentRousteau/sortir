@@ -32,10 +32,12 @@ class RechercheFormType extends AbstractType
             ->add('dateDebut', DateType::class, [
                 'label' => 'Entre le',
                 'widget' => 'single_text',
+                'required' => false
             ])
             ->add('dateFin', DateType::class, [
                 'label' => 'et le',
                 'widget' => 'single_text',
+                'required' => false
             ])
             ->add('sortiesOrganisees', CheckboxType::class, [
                 'label' => 'Je suis l\'organisateur',

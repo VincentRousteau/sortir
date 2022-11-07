@@ -75,9 +75,20 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter(4, '%' . $entiteFormulaire->getRecherche() . '%');
         }
 
+        if (is_null($entiteFormulaire->getDateDebut())) {
+            $debut = new \DateTime();
+            $debut->sub(new \DateInterval('P1M'));
+            $entiteFormulaire->setDateDebut($debut);
+        }
+
         $qb->andWhere('s.dateHeureDebut > ?5')
             ->setParameter(5, $entiteFormulaire->getDateDebut());
 
+        if (is_null($entiteFormulaire->getDateFin())) {
+            $fin = new \DateTime();
+            $fin->add(new \DateInterval("P1Y"));
+            $entiteFormulaire->setDateFin($fin);
+        }
         $qb->andWhere('s.dateHeureDebut < ?6')
             ->setParameter(6, $entiteFormulaire->getDateFin());
 

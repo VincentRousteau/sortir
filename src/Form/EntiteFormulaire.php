@@ -23,7 +23,7 @@ class EntiteFormulaire
     private ?bool $sortiesPasses = null;
 
 
-    public function getCampus(): ?string
+    public function getCampus(): ?Campus
     {
         return $this->campus;
     }

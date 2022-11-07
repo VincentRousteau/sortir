@@ -2,15 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
 use App\Form\EntiteFormulaire;
 use App\Form\RechercheFormType;
-use App\Repository\CampusRepository;
-use App\Repository\EtatRepository;
-use App\Entity\Participant;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'homepage', methods: ['GET', 'POST'])]
-    public function index(Request $request, AuthenticationUtils $authenticationUtils, EntityManager $em, ParticipantRepository $participantRepository, SortieRepository $sortieRepository): Response
+    public function index(Request $request, AuthenticationUtils $authenticationUtils, EntityManagerInterface $em, ParticipantRepository $participantRepository, SortieRepository $sortieRepository): Response
     {
         $email = $authenticationUtils->getLastUsername();
         $personne = $participantRepository->findOneByEmail($email);
@@ -30,12 +26,21 @@ class MainController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted()){
-            $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($entiteFormulaire, $personne);
-        }else{
+        if(!$form->isSubmitted()){
+            $entiteFormulaire->setCampus($personne->getCampus());
 
+            $debut = new \DateTime();
+            $debut->sub(new \DateInterval('P1M'));
+            $entiteFormulaire->setDateDebut($debut);
+
+            $fin = new \DateTime();
+            $fin->add(new \DateInterval("P1Y"));
+            $entiteFormulaire->setDateFin($fin);
         }
 
+        $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($entiteFormulaire, $personne);
+
+        dump($entiteFormulaire);
 
         //$sorties=$sortieRepository->findSortieByCampus($campusUser);
 
@@ -83,7 +88,7 @@ class MainController extends AbstractController
         return $this->render('main/home.html.twig', [
             'personne' => $personne,
             //'sortiesForm' => $sortiesForm->createView(),
-            'formulaire' => $form,
+            'formulaire' => $form->createView(),
             'toutesLesSorties' => $sorties,
         ]);
     }

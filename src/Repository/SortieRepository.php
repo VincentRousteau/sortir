@@ -2,8 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Campus;
-use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\EntiteFormulaire;
@@ -47,7 +45,7 @@ class SortieRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s');
 
-        if (!is_null($entiteFormulaire->getSortiesInscrit())) {
+        if ($entiteFormulaire->getSortiesInscrit()) {
 
             $qb->addSelect('p')
                 ->innerJoin('s.participants', 'p')
@@ -55,7 +53,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter(1, $user);
         }
 
-        if (!is_null($entiteFormulaire->getSortiesOrganisees())) {
+        if ($entiteFormulaire->getSortiesOrganisees()) {
 
             $qb->addSelect('o')
                 ->innerJoin('s.organisateur', 'o')
@@ -63,7 +61,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter(2, $user);
         }
 
-        if (!is_null($entiteFormulaire->getSortiesNonInscrit())) {
+        if ($entiteFormulaire->getSortiesNonInscrit()) {
 
             $qb->addSelect('np')
                 ->innerJoin('s.participants', 'np')
@@ -83,7 +81,7 @@ class SortieRepository extends ServiceEntityRepository
         $qb->andWhere('s.dateHeureDebut < ?6')
             ->setParameter(6, $entiteFormulaire->getDateFin());
 
-        if (!is_null($entiteFormulaire->getSortiesPasses())) {
+        if ($entiteFormulaire->getSortiesPasses()) {
 
             $qb->andWhere('s.etat = ?7')
                 ->setParameter(7, "passé");

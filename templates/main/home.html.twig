@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Liste des sorties</h1>
+    <h1>Les sorties</h1>
 
     <p>Date du jour : {{ 'now'|date('d/m/Y') }}</p>
 
@@ -19,10 +19,22 @@
                 {{ form_row(formulaire.dateFin) }}
             </div>
             <div class="rechercheCheckbox">
-                {{ form_row(formulaire.sortiesOrganisees) }}
-                {{ form_row(formulaire.sortiesInscrit) }}
-                {{ form_row(formulaire.sortiesNonInscrit) }}
-                {{ form_row(formulaire.sortiesPasses) }}
+                <div>
+                    {{ form_widget(formulaire.sortiesOrganisees) }}
+                    {{ form_label(formulaire.sortiesOrganisees) }}
+                </div>
+                <div>
+                    {{ form_widget(formulaire.sortiesInscrit) }}
+                    {{ form_label(formulaire.sortiesInscrit) }}
+                </div>
+                <div>
+                    {{ form_widget(formulaire.sortiesNonInscrit) }}
+                    {{ form_label(formulaire.sortiesNonInscrit) }}
+                </div>
+                <div>
+                    {{ form_widget(formulaire.sortiesPasses) }}
+                    {{ form_label(formulaire.sortiesPasses) }}
+                </div>
             </div>
         </div>
     {{ form_row(formulaire.submit) }}

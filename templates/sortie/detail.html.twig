@@ -17,4 +17,16 @@
     <p>Latitude : {{ sortie.lieu.latitude }}</p>
 
 
+    <div class="participants_list">
+        <h3>Liste des participants</h3>
+        {% for participant in sortie.participants %}
+            <div class="particpant">
+                <a href="{{ path('show_profile', {"id":sortie.id})  }}">{{ participant.pseudo}} - {{ participant.prenom}} - {{ participant.nom}}</a>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
 {% endblock %}

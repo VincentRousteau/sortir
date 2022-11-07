@@ -3,17 +3,17 @@
             <ul>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li>
-                        <a href="">Ville</a>
+                        <a href="{{ path('ville_creation') }}">Ville</a>
                     </li>
                     <li>
-                        <a href="">Campus</a>
+                        <a href="{{ path("campus_creation") }}">Campus</a>
                     </li>
                 {% endif %}
                 <li>
-                    <a href="">Accueil</a>
+                    <a href="{{ path('homepage') }}">Accueil</a>
                 </li>
                 <li>
-                    <a href="">Mon profil</a>
+                    <a href="{{ path('show_profile') }}">Mon profil</a>
                 </li>
                 {% if app.user %}
                     <a href="{{ path('app_logout') }}">Déconnexion</a>

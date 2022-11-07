@@ -62,7 +62,14 @@
                                 <div class="card_infos_back">
                                     <div class="buttons">
                                         <a href="">+ d'infos</a>
-                                        <a href="{{ path('addParticipant', {"id":sortie.id}) }}">S'inscrire</a>
+                                        {% if (personne not in sortie.participants) %}
+                                            {% dump ('if') %}
+
+                                            <a href="{{ path('addParticipant', {"id":sortie.id}) }}">S'inscrire</a>
+                                        {% else %}
+                                            {% dump ('else') %}
+                                            <a href="{{ path('removeParticipant', {"id":sortie.id}) }}">Se désister</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

@@ -12,6 +12,7 @@ use App\Form\VilleType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,12 +116,40 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/addparticipant/{id}', name:"addParticipant")]
-    public function addParticipant(int $id, SortieRepository $sortieRepository)
+    public function addParticipant(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em)
     {
         $user = $this->getUser();
         $sortie = $sortieRepository->find($id);
 
+
+        $user->addSortie($sortie);
+        $em->persist($user);
+
         $sortie->addParticipant($user);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_detail', [
+            "id" => $id
+        ]);
+
+    }
+
+    #[Route('/sortie/removeparticipant/{id}', name:"removeParticipant")]
+    public function removeParticipant(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em)
+    {
+        $user = $this->getUser();
+        $sortie = $sortieRepository->find($id);
+
+
+        $user->removeSortie($sortie);
+        $em->persist($user);
+
+        $sortie->removeParticipant($user);
+
+        $em->persist($sortie);
+        $em->flush();
 
         return $this->redirectToRoute('sortie_detail', [
             "id" => $id

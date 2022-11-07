@@ -48,8 +48,11 @@
                                 <div class="card_dateDebut">
                                     Le {{ sortie.dateHeureDebut|date('d/m/Y') }}
                                 </div>
+                                <div>
+                                    Durée de l'évènement : {{ sortie.duree }} minutes
+                                </div>
                                 <div class="card_inscription">
-                                    {{ sortie.nbInscriptionsMax }}
+                                    Nombre d'inscrits : {{ sortie.participants|length }} / {{ sortie.nbInscriptionsMax }}
                                 </div>
                                 <div class="card_organisateur">
                                     Organisé par {{ sortie.organisateur.pseudo }}
@@ -67,11 +70,6 @@
                     </div>
                 </li>
 
-                {#
-                <li>
-                    {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes, orga : '~sortie.organisateur.nom~', état : '~sortie.etat.libelle }}
-                </li>
-                #}
             {% endfor %}
         </ul>
     </div>

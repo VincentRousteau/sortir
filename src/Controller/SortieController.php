@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\LieuType;
-use App\Form\RechercheFormType;
 use App\Form\RechercheVilleType;
 use App\Form\SortieType;
 use App\Form\VilleType;
@@ -15,6 +13,7 @@ use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,10 +33,11 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/creation', name:"sortie_creation")]
-    public function new(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository)
+    public function new(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository, VilleRepository $villeRepository): Response
     {
         $sortie = new Sortie();
         $sortieForm  = $this->createForm(SortieType::class, $sortie);
+        $villes = $villeRepository->findAll();
 
         $sortieForm->handleRequest($request);
 
@@ -49,6 +49,9 @@ class SortieController extends AbstractController
             elseif($sortieForm->get('publier')->isClicked()){
                 $sortie->setEtat($etatRepository->findOneByLibelle("Ouvert"));
             }
+            $sortie->setOrganisateur($this->getUser());
+            $lieu = $sortie->getLieu();
+            $sortie->getLieu()->setVille($sortieForm->get('ville')->getData());
 
             $em->persist($sortie);
             $em->flush();
@@ -56,12 +59,13 @@ class SortieController extends AbstractController
         }
 
         return $this->render("sortie/creationSortie.html.twig", [
-            "sortieForm" => $sortieForm->createView()
+            "sortieForm" => $sortieForm->createView(),
+            "listeVilles" => $villes
         ]);
     }
 
     #[Route('/sortie/ajoutLieu', name:"lieu_creation")]
-    public function ajoutLieu(Request $request, EntityManagerInterface $em)
+    public function ajoutLieu(Request $request, EntityManagerInterface $em): Response
     {
         $lieu = new Lieu();
         $lieuForm  = $this->createForm(LieuType::class, $lieu);
@@ -81,7 +85,7 @@ class SortieController extends AbstractController
 
     #[Route('/sortie/ajoutVille', name:"ville_creation")]
     #[IsGranted('ROLE_ADMIN')]
-    public function ajoutVille(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository, SortieRepository $sortieRepository)
+    public function ajoutVille(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository): Response
     {
 
         $ville = new Ville();
@@ -115,12 +119,48 @@ class SortieController extends AbstractController
             "villeForm" => $villeForm->createView()
         ]);
     }
-//
-//    #[Route('/sortie/ajoutVille', name:"ville_creation")]
-//    public function modifVille(){
-//
-//    }
 
+    #[Route('/sortie/addparticipant/{id}', name:"addParticipant")]
+    public function addParticipant(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em)
+    {
+        $user = $this->getUser();
+        $sortie = $sortieRepository->find($id);
+
+
+        $user->addSortie($sortie);
+        $em->persist($user);
+
+        $sortie->addParticipant($user);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_detail', [
+            "id" => $id
+        ]);
+
+    }
+
+    #[Route('/sortie/removeparticipant/{id}', name:"removeParticipant")]
+    public function removeParticipant(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em)
+    {
+        $user = $this->getUser();
+        $sortie = $sortieRepository->find($id);
+
+
+        $user->removeSortie($sortie);
+        $em->persist($user);
+
+        $sortie->removeParticipant($user);
+
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_detail', [
+            "id" => $id
+        ]);
+
+    }
 
 
 }

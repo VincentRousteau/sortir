@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Campus;
-use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -24,36 +23,35 @@ class RechercheFormType extends AbstractType
                 'class'=> Campus::class
             ])
             ->add('recherche', TextType::class, [
-                'mapped'=>false,
-                'label' => 'Le nom de la sortie contient :',
+                'label' => 'Recherche',
+                'attr' => array(
+                    'placeholder' => 'Mot clé'
+                ),
                 'required' => false
             ])
             ->add('dateDebut', DateType::class, [
-                'mapped'=>false,
-                'label' => 'Entre le'
+                'label' => 'Entre le',
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('dateFin', DateType::class, [
-                'mapped'=>false,
-                'label' => 'et le'
+                'label' => 'et le',
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('sortiesOrganisees', CheckboxType::class, [
-                'mapped'=>false,
-                'label' => 'Sorties dont je suis l\'organisateur/trice',
+                'label' => 'Je suis l\'organisateur',
                 'required' => false
             ])
             ->add('sortiesInscrit', CheckboxType::class, [
-                'mapped'=>false,
-                'label' => 'Sorties auxquelles je suis inscrit/e',
+                'label' => 'Je suis inscrit/e',
                 'required' => false
             ])
             ->add('sortiesNonInscrit', CheckboxType::class, [
-                'mapped'=>false,
-                'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
+                'label' => 'Je ne suis pas inscrit/e',
                 'required' => false
-
             ])
-            ->add('sortiesPassees', CheckboxType::class, [
-                'mapped'=>false,
+            ->add('sortiesPasses', CheckboxType::class, [
                 'label' => 'Sorties passées',
                 'required' => false
             ])
@@ -65,7 +63,7 @@ class RechercheFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Sortie::class,
+            'data_class' => EntiteFormulaire::class,
         ]);
     }
 }

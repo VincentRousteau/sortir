@@ -5,19 +5,35 @@
         <title>{% block title %}Sortir{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset("css/style.css") }}">
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-
-
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            <script src="{{ asset('js/script.js') }}" defer></script>
         {% endblock %}
     </head>
     <body>
 
         <div class="container">
             <header>
-                <img src="{{ asset('images/logo_ENI_pt.svg') }}" alt="Sortir" height="150 px">
-                {% include 'inc/_nav.html.twig' %}
+                <div class="banner">
+                    {% if app.user %}
+                        <a href="{{ path("homepage") }}" id="logo">SORTIR </a>
+                    {% else %}
+                        <a href="{{ path("app_login") }}" id="logo">SORTIR </a>
+                    {% endif %}
+                    {% if app.user %}
+                        <div id="avatar_wrapper">
+                            <a href="{{ path('app_logout') }}">
+                                <div id="avatar">
+                                        <img src="{{ asset('images/avatars/avataaars(6).png') }}" alt="avatar">
+                                        <div class="avatar_pseudo">Bob Marley</div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+                <!--<img src="{{ asset('images/sortir.svg') }}" alt="Sortir" height="150 px">-->
+                {% block nav %}
+                    {% include 'inc/_nav.html.twig' %}
+                {% endblock %}
             </header>
             <main>
                 {% block body %}{% endblock %}

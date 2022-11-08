@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\DataFixtures\CampusFixtures;
 use App\Entity\Etat;
 use App\Entity\Lieu;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -16,7 +17,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
     {
         // $product = new Product();
         // $manager->persist($product);
-
+        //$users = $manager->getRepository(Participant::class)->findAll();
 
         $sortie = new Sortie();
         $sortie->setNom('Patinoire');

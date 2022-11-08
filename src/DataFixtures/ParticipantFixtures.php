@@ -2,11 +2,13 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\CampusFixtures;
+
+use App\Entity\Campus;
 use App\Entity\Participant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ParticipantFixtures extends Fixture implements DependentFixtureInterface
@@ -23,6 +25,9 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
     {
         // $product = new Product();
         // $manager->persist($product);
+
+        //$campus = $manager->getRepository(Campus::class)->findAll();
+        //$campus[random_int(0, strlen($campus))];
 
         $admin = new Participant();
         $admin->setEmail("admin@admin.com");
@@ -62,6 +67,25 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
         $user2->setCampus($this->getReference("niort"));
         $manager->persist($user2);
         $this->addReference("sam", $user2);
+
+
+        //$faker = Faker\Factory::create('fr_FR');
+        $faker =Factory::create('fr_FR');
+        $participant = Array();
+        for ($i = 0; $i < 50; $i++) {
+            $participant[$i] = new Participant();
+            $participant[$i]->setNom($faker->lastName);
+            $participant[$i]->setPrenom($faker->firstName);
+            $participant[$i]->setPassword($this->hasher->hashPassword($participant[$i], "user"));
+            $participant[$i]->setEmail($faker->unique()->email);
+            $participant[$i]->setRoles(["ROLE_USER"]);
+            $participant[$i]->setPseudo($faker->unique()->lastName);
+            $participant[$i]->setTelephone("0102020202" );
+            $participant[$i]->setActif(true);
+            $participant[$i]->setCampus($this->getReference("nantes"));
+
+            $manager->persist($participant[$i]);
+        }
 
         $manager->flush();
     }

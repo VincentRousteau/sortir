@@ -5,25 +5,116 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Liste des sorties</h1>
+    <h1>Les sorties</h1>
 
     <p>Date du jour : {{ 'now'|date('d/m/Y') }}</p>
-    <p>{{ personne.prenom~' '~personne.nom }}</p>
-
-    {{ form_start(sortiesForm) }}
-
-    {{ form_widget(sortiesForm) }}
-
-    {{ form_end(sortiesForm) }}
 
 
-    <p>Giga requête de ses mort de merde : </p>
-    <ul>
-        {% for sortie in toutesLesSorties %}
-            <li>
-                {{ 'Nom : '~ sortie.nom~ ',  date de début :' ~sortie.dateHeureDebut|date('d/m/Y')~',  durée de la sortie : '~sortie.duree~ ' minutes, orga : '~sortie.organisateur.nom~', état : '~sortie.etat.libelle }}
-            </li>
-        {% endfor %}
-    </ul>
+    {{ form_start(formulaire, {'attr': {'id': 'recherche_form'}}) }}
+        <div class="champsDeRecherche">
+            <div class="rechercheInput">
+                {{ form_row(formulaire.campus) }}
+                {{ form_row(formulaire.recherche) }}
+                {{ form_row((formulaire.dateDebut)) }}
+                {{ form_row(formulaire.dateFin) }}
+            </div>
+            <div class="rechercheCheckbox">
+                <div>
+                    {{ form_widget(formulaire.sortiesOrganisees) }}
+                    {{ form_label(formulaire.sortiesOrganisees) }}
+                </div>
+                <div>
+                    {{ form_widget(formulaire.sortiesInscrit) }}
+                    {{ form_label(formulaire.sortiesInscrit) }}
+                </div>
+                <div>
+                    {{ form_widget(formulaire.sortiesNonInscrit) }}
+                    {{ form_label(formulaire.sortiesNonInscrit) }}
+                </div>
+                <div>
+                    {{ form_widget(formulaire.sortiesPasses) }}
+                    {{ form_label(formulaire.sortiesPasses) }}
+                </div>
+            </div>
+        </div>
+    {{ form_row(formulaire.submit) }}
+
+    {{ form_end(formulaire) }}
+
+    <div class="addSortie">
+        <a href="{{ path('sortie_creation') }}" id="ajoutSortie">Ajouter une sortie</a>
+    </div>
+
+    <div class="gridCards">
+        <ul>
+            {% for sortie in toutesLesSorties %}
+                <li>
+                    <div class="sortieCard_Wrapper">
+                        <div class="card_etat">
+                            {{ sortie.etat.libelle }}
+                        </div>
+                        <div class="card_inscrit">
+
+                        </div>
+                        <div class="sortieCard">
+                            <div class="card_infos">
+                                <div class="card_title">
+                                    <h3>{{ sortie.nom }}</h3>
+                                </div>
+                                <div class="card_dateDebut">
+                                    Le {{ sortie.dateHeureDebut|date('d/m/Y') }}
+                                </div>
+                                <div>
+                                    Durée de l'évènement : {{ sortie.duree }} minutes
+                                </div>
+                                <div class="card_inscription">
+                                    Nombre d'inscrits : {{ sortie.participants|length }} / {{ sortie.nbInscriptionsMax }}
+                                </div>
+                                <div class="card_organisateur">
+                                    Organisé par {{ sortie.organisateur.pseudo }}
+                                </div>
+                                <div class="card_ville">
+                                    À : {{ sortie.lieu.ville.nom }}
+                                </div>
+                            </div>
+                            <div class="sortieCardBack">
+                                <div class="card_infos_back">
+
+
+                                    <div class="buttons">
+                                        {% if(personne.pseudo is same as (sortie.organisateur.pseudo)) %}
+                                            {% if (sortie.etat.libelle is same as ("En creation")) %}
+                                                <a href="">Modifier</a>
+                                                <a href="}">Publier</a>
+                                            {% endif %}
+                                            {% if (sortie.etat.libelle is same as ("Ouvert")) %}
+                                                <a href="">Afficher</a>
+                                                <a href="">Annuler</a>
+                                            {% endif %}
+
+                                        {% else %}
+                                            <a href="{{ path('sortie_detail', {"id":sortie.id}) }}">+ d'infos</a>
+                                            {% if (personne not in sortie.participants) %}
+                                                {% if (sortie.etat.libelle is not same as ("Passé")) %}
+                                                    {% if(sortie.participants|length < sortie.nbInscriptionsMax) %}
+                                                        <a href="{{ path('addParticipant', {"id":sortie.id}) }}">S'inscrire</a>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% else %}
+                                                <a href="{{ path('removeParticipant', {"id":sortie.id}) }}">Se désister</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            {% endfor %}
+        </ul>
+    </div>
 
 {% endblock %}

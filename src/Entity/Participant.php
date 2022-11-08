@@ -5,12 +5,12 @@ namespace App\Entity;
 use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
+
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -54,13 +54,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'participants')]
     private Collection $sorties;
-    
-
-    #[ORM\Column(type: Types::BLOB, nullable: true)]
-    private $avatar = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $photo = null;
+    private ?string $image = null;
+    
 
     public function __construct()
     {
@@ -283,15 +280,14 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoto(): ?string
+
+    public function setImage($image)
     {
-        return $this->photo;
+        $this->image = $image;
     }
 
-    public function setPhoto(?string $photo): self
+    public function getImage()
     {
-        $this->photo = $photo;
-
-        return $this;
+        return $this->image;
     }
 }

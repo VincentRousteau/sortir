@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Créer un nouvel utilisateur</h2>
+        {{ form_start(profileForm) }}
+        {{ form_widget(profileForm) }}
+{#    <div>Pseudo : {{ profile.pseudo }}</div>#}
+{#    <div>Prénom : {{ profile.prenom }}</div>#}
+{#    <div>Nom : {{ profile.nom }}</div>#}
+{#    <div>Téléphone : {{ profile.telephone }}</div>#}
+{#    <div>email : {{ profile.email }}</div>#}
+{#    <div>Campus : {{ profile.campus.nom }}</div>#}
+{#    <div>Photo : {{ profile.image }}</div>#}
+{#    <div id="avatar">#}
+{#        {% if profile.image %}#}
+{#            <img src="{{ asset('uploads/avatars/' ~ profile.image)}}" alt="{{ profile.prenom }} {{ profile.nom }}" height="75 px>#}
+{#        {% else %}#}
+{#            <img src="{{ asset('uploads/logo-eni.jpg') }}" alt="Photo par défaut" height="75 px">#}
+{#        {% endif %}#}
+{#    </div>#}
+    {{ form_end(profileForm) }}
+
+
+{#    {% if app.profile == profile %}#}
+{#        <a href="{{ path('profile_edit') }}">Modifier mon profil</a><br>#}
+{#        <a href="{{ path('profile_avatar') }}">Modifier mon image</a><br>#}
+{#        <a href="{{ path('profile_password') }}">Modifier mon mot de passe</a>#}
+{#    {% endif %}#}
+
+{% endblock %}
+{% block title %}Mon profil{% endblock %}

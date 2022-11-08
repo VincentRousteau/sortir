@@ -6,7 +6,9 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,12 +18,41 @@ class ProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname', null, ['label' => 'Prénom'])
-            ->add('lastname', null, ['label' => 'Nom'])
-            ->add('phone', null, ['label' => 'Téléphone'])
-            ->add('email')
-            ->add('campus',EntityType::class, ['class' => Campus::class,'choice_label' => 'name'])
-            ->add('submit', SubmitType::class, ['label' => 'OK'])
+            ->add('pseudo', TextType::class, [
+                'label' => 'Pseudo',
+                'required' => false
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Prénom',
+                'required' => false
+            ])
+            ->add('nom', TextType::class, [
+                'label' => 'Nom',
+                'required' => false
+            ])
+            ->add('telephone', TextType::class, [
+                'label' => 'Téléphone',
+                'required' => false
+            ])
+            ->add('email', TextType::class, [
+                'label' => 'email',
+                'required' => false
+            ])
+            ->add('campus', EntityType::class, [
+                'label' => 'Campus',
+                'class' => Campus::class,
+                'choice_label' => 'nom'
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Ajouter un avatar',
+                'mapped' => false,
+                'data_class' => null
+//                'label_attr' => [
+//                    'class' => 'form-label mt-4'
+//                ]
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Valider'])
+            ->add('Annuler',SubmitType::class, ['label' => 'Annuler'])
         ;
     }
 

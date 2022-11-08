@@ -4,19 +4,17 @@ namespace App\Form;
 
 use App\Entity\Campus;
 use App\Entity\Participant;
-use App\Service\FileUploader;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class EditProfileType extends AbstractType
 {
@@ -55,7 +53,7 @@ class EditProfileType extends AbstractType
                     ])
                 ]
             ])
-            ->add('telephone',NumberType::class, [
+            ->add('telephone',TelType::class, [
                 'required' => true,
                 'label' => "Téléphone",
                 'constraints' => [
@@ -63,8 +61,8 @@ class EditProfileType extends AbstractType
                         'message' => 'Veuillez saisir votre numéro de téléphone mobile'
                     ]),
                     new Length([
-                        'min' => 10,
-                        'minMessage' => 'Minimum {{ limit }} caractères, au format 06 ou 07'
+                        'max' => 10,
+                        'maxMessage' => 'Maximum {{ limit }} caractères, au format 06 ou 07'
                     ]),
                 ]
             ])
@@ -88,60 +86,34 @@ class EditProfileType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('plainPassword', PasswordType::class, [
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Modifier votre mot de passe',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères',
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Modifier mon avatar',
+                'mapped' => false,
+//                'label_attr' => [
+//                    'class' => 'form-label mt-4'
+//                ]
+            ])
 
-//            ->add('password',PasswordType::class, [
-//                'required' => true,
-//                'mapped' => false,
-//                'label' => 'Mot de passe',
-//                'constraints' => [
-//                    new NotBlank([
-//                        'message' => 'Veuillez saisir un mot de passe'
-//                    ]),
-//                    new Length([
-//                        'min' => 6,
-//                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-//                        // max length allowed by Symfony for security reasons
-//                        'max' => 4096,
-//                    ]),
-//                ],
-//            ])
-//            ->add('password',PasswordType::class, [
-//                'required' => true,
-//                'mapped' => false,
-//                'label' => 'Confirmation',
-//                'constraints' => [
-//                    new NotBlank([
-//                        'message' => 'Veuillez confirmer votre mot de passe'
-//                    ]),
-//                    new Length([
-//                        'min' => 6,
-//                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-//                        // max length allowed by Symfony for security reasons
-//                        'max' => 4096,
-//                    ]),
-//                ],
-//            ])
-//            ->add('uploadFile', FileType::class, [
-//                'mapped' => false,
-//                'required'=>false,
-//                'constraints' => [
-//                    new ([
-//                        'maxSize' => '2M',
-//                        'mimeTypes' => [
-//                            'image/jpeg',
-//                            'image/png',
-//                        ],
-//                        'mimeTypesMessage' => 'Ajouter votre photo',
-//                    ]),
-//                ],
-//            ])
-
-            ->add('enregistrer',SubmitType::class)
-            ->add('annuler',SubmitType::class)
+            ->add('Valider',SubmitType::class, ['label' => 'Valider'])
+            ->add('Annuler',SubmitType::class, ['label' => 'Annuler'])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Participant::class,

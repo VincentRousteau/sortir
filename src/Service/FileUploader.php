@@ -13,16 +13,15 @@ class FileUploader
     {
     }
 
-    public function upload(UploadedFile $file, string $directory = '') : string //On a un tout petit peu modifié la doc : on passe le répertoire en deuxième paramètre
+    public function upload(UploadedFile $file, string $directory = '') : string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
         try {
-            $file->move($this->getTargetDirectory() . $directory, $fileName); //On fait une concaténation pour que ça aille dans le bon directory
+            $file->move($this->getTargetDirectory() . $directory, $fileName);
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
         }
 
         return $fileName;

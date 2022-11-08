@@ -46,11 +46,9 @@ class SortieRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('s');
 
         $qb->addSelect('p')
-            ->innerJoin('s.participants', 'p')
+            ->leftJoin('s.participants', 'p')
             ->addSelect('o')
             ->innerJoin('s.organisateur', 'o')
-            ->addSelect('np')
-            ->innerJoin('s.participants', 'np')
             ->addSelect('e')
             ->innerJoin('s.etat','e');
 
@@ -96,19 +94,24 @@ class SortieRepository extends ServiceEntityRepository
         $qb->andWhere('s.dateHeureDebut < ?6')
             ->setParameter(6, $entiteFormulaire->getDateFin());
 
-        if ($entiteFormulaire->getSortiesPasses()) {
 
-            $qb->andWhere('s.etat = ?7')
-                ->setParameter(7, "passé");
-        }
 
         if (is_null($entiteFormulaire->getCampus())) {
             $entiteFormulaire->setCampus($user->getCampus());
         }
 
-        $qb->andWhere('s.campus = ?8')
+        $qb->andWhere('s.campus = ?9')
             ->orderBy('s.dateHeureDebut', 'ASC')
-            ->setParameter(8, $entiteFormulaire->getCampus());
+            ->setParameter(9, $entiteFormulaire->getCampus());
+
+        if ($entiteFormulaire->getSortiesPasses()) {
+
+            $qb->andWhere('e.libelle = ?7')
+                ->setParameter(7, "passé");
+        }else{
+            $qb->andWhere('e.libelle <> ?8')
+                ->setParameter(8, "historisé");
+        }
 
         return $qb->getQuery()->getResult();
     }

@@ -26,7 +26,7 @@ class MainController extends AbstractController
 
         $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($entiteFormulaire, $personne);
 
-        $changeEtat->change($sorties);
+        //$changeEtat->change($sorties);
 
 
 

@@ -13,27 +13,27 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class ChangeEtat
 {
 
-    public function __construct(EntityManagerInterface $em)
-    {
-
-    }
-
-    public function change(Array $sorties): string
-    {
-
-
-
-        foreach ($sorties as $sortie){
-
-            $now = new \DateTime("now");
-            $nowAndDelay = $now->add(new DateInterval('PT' . $sortie->getDuree() . 'M'));
-
-
-            dd($nowAndDelay);
-
-        }
-
-    }
+//    public function __construct(EntityManagerInterface $em)
+//    {
+//
+//    }
+//
+//    public function change(Array $sorties): string
+//    {
+//
+//
+//
+//        foreach ($sorties as $sortie){
+//
+//            $now = new \DateTime("now");
+//            $nowAndDelay = $now->add(new DateInterval('PT' . $sortie->getDuree() . 'M'));
+//
+//
+//            dd($nowAndDelay);
+//
+//        }
+//
+//    }
 
 
 

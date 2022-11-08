@@ -32,17 +32,18 @@ class SortieType extends AbstractType
             ])
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
-            ->add('lieu', EntityType::class, [
-                "class" => Lieu::class,
-                "choice_label" => "nom"
-            ])
             ->add('campus', EntityType::class, [
                 "class" => Campus::class,
                 "choice_label" => "nom"
             ])
-            ->add('organisateur',EntityType::class, [
-            "class" => Participant::class,
-            "choice_label" => "nom"
+            ->add('ville',EntityType::class, [
+            "class" => Ville::class,
+            "choice_label" => "nom",
+                'mapped'=>false
+            ])
+            ->add('lieu', EntityType::class, [
+                "class" => Lieu::class,
+                "choice_label" => "nom"
             ])
             ->add('enregistrer', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('publier', SubmitType::class, ['label' => 'Publier'])

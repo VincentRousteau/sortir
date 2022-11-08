@@ -12,7 +12,6 @@ use App\Form\VilleType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,6 +49,9 @@ class SortieController extends AbstractController
             elseif($sortieForm->get('publier')->isClicked()){
                 $sortie->setEtat($etatRepository->findOneByLibelle("Ouvert"));
             }
+            $sortie->setOrganisateur($this->getUser());
+            $lieu = $sortie->getLieu();
+            $sortie->getLieu()->setVille($sortieForm->get('ville')->getData());
 
             $em->persist($sortie);
             $em->flush();
@@ -83,7 +85,7 @@ class SortieController extends AbstractController
 
     #[Route('/sortie/ajoutVille', name:"ville_creation")]
     #[IsGranted('ROLE_ADMIN')]
-    public function ajoutVille(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository, SortieRepository $sortieRepository): Response
+    public function ajoutVille(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository): Response
     {
 
         $ville = new Ville();

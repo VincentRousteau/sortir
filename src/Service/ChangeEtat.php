@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class UpdateEtat
+class ChangeEtat
 {
 
 //    public function __construct(EntityManagerInterface $em)

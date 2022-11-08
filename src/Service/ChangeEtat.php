@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Sortie;
+use App\Repository\SortieRepository;
 use Cassandra\Date;
 use DateInterval;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,7 +19,7 @@ class ChangeEtat
 
     }
 
-    public function change(Array $sorties): string
+    public function change(SortieRepository $sortieRepository, EntityManagerInterface $em, Array $sorties): void
     {
 
 
@@ -26,11 +27,26 @@ class ChangeEtat
         foreach ($sorties as $sortie){
 
             $now = new \DateTime("now");
-            $nowAndDelay = $now->add(new DateInterval('PT' . $sortie->getDuree() . 'M'));
+            $start = $sortie->getDateHeureDebut();
+
+            $end = clone $start;
+            $end->modify($sortie->getDuree() . " minutes");
+
+            $archive = clone $end;
+            $archive->modify("1 month");
+
+            $isPassed = $now > $end;
+            $isInProgress = $now > $start && $now < $end;
+            $isArchived = $now > $archive;
+            $isClosed = count($sortie->getParticipants()) >= $sortie->getNbInscriptionsMax();
 
 
-            dd($nowAndDelay);
+            if($isPassed){
+                $sortie.setEtat($this->getReference("Passé"));
+            }
 
+            $em->persist($sortie);
+            $em->flush();
         }
 
     }

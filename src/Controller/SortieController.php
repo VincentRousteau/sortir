@@ -14,6 +14,7 @@ use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,10 +34,11 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/creation', name:"sortie_creation")]
-    public function new(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository): Response
+    public function new(Request $request, EntityManagerInterface $em, EtatRepository $etatRepository, VilleRepository $villeRepository): Response
     {
         $sortie = new Sortie();
         $sortieForm  = $this->createForm(SortieType::class, $sortie);
+        $villes = $villeRepository->findAll();
 
         $sortieForm->handleRequest($request);
 
@@ -55,7 +57,8 @@ class SortieController extends AbstractController
         }
 
         return $this->render("sortie/creationSortie.html.twig", [
-            "sortieForm" => $sortieForm->createView()
+            "sortieForm" => $sortieForm->createView(),
+            "listeVilles" => $villes
         ]);
     }
 

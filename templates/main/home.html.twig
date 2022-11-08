@@ -41,6 +41,10 @@
 
     {{ form_end(formulaire) }}
 
+    <div class="addSortie">
+        <a href="{{ path('sortie_creation') }}" id="ajoutSortie">Ajouter une sortie</a>
+    </div>
+
     <div class="gridCards">
         <ul>
             {% for sortie in toutesLesSorties %}
@@ -72,17 +76,34 @@
                             </div>
                             <div class="sortieCardBack">
                                 <div class="card_infos_back">
-                                    <div class="buttons">
-                                        <a href="{{ path('sortie_detail', {"id":sortie.id}) }}">+ d'infos</a>
-                                        {% if (personne not in sortie.participants) %}
-                                            {% dump ('if') %}
 
-                                            <a href="{{ path('addParticipant', {"id":sortie.id}) }}">S'inscrire</a>
+
+                                    <div class="buttons">
+                                        {% if(personne.pseudo is same as (sortie.organisateur.pseudo)) %}
+                                            {% if (sortie.etat.libelle is same as ("En creation")) %}
+                                                <a href="">Modifier</a>
+                                                <a href="}">Publier</a>
+                                            {% endif %}
+                                            {% if (sortie.etat.libelle is same as ("Ouvert")) %}
+                                                <a href="">Afficher</a>
+                                                <a href="">Annuler</a>
+                                            {% endif %}
+
                                         {% else %}
-                                            {% dump ('else') %}
-                                            <a href="{{ path('removeParticipant', {"id":sortie.id}) }}">Se désister</a>
+                                            <a href="{{ path('sortie_detail', {"id":sortie.id}) }}">+ d'infos</a>
+                                            {% if (personne not in sortie.participants) %}
+                                                {% if (sortie.etat.libelle is not same as ("Passé")) %}
+                                                    {% if(sortie.participants|length < sortie.nbInscriptionsMax) %}
+                                                        <a href="{{ path('addParticipant', {"id":sortie.id}) }}">S'inscrire</a>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% else %}
+                                                <a href="{{ path('removeParticipant', {"id":sortie.id}) }}">Se désister</a>
+                                            {% endif %}
                                         {% endif %}
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>

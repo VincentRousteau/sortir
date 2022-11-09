@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -36,7 +37,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/profile/edit', name: 'profile_edit')]
-    public function edit(Request $request, EntityManagerInterface $em, FileUploader $fileUploader) : Response
+    public function edit(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher, FileUploader $fileUploader) : Response
     {
         $user = $this->getUser();
 
@@ -53,6 +54,14 @@ class ProfileController extends AbstractController
                 $avatar = $fileUploader->upload($image, '/avatars');
                 $user->setImage($avatar);
             }
+
+                // Encode le plain password
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $profileForm->get('password')->getData()
+                    )
+                );
 
             $em->persist($user);
             $em->flush();

@@ -50,9 +50,11 @@ class SortieRepository extends ServiceEntityRepository
             ->addSelect('o')
             ->innerJoin('s.organisateur', 'o')
             ->addSelect('e')
-            ->innerJoin('s.etat','e')
-        ->addSelect('l')
-        ->innerJoin('s.lieu','l');
+            ->innerJoin('s.etat', 'e')
+            ->addSelect('l')
+            ->innerJoin('s.lieu', 'l')
+        ->addSelect('v')
+        ->innerJoin('l.ville','v');
 
 
         if ($entiteFormulaire->getSortiesInscrit()) {
@@ -97,7 +99,6 @@ class SortieRepository extends ServiceEntityRepository
             ->setParameter(6, $entiteFormulaire->getDateFin());
 
 
-
         if (is_null($entiteFormulaire->getCampus())) {
             $entiteFormulaire->setCampus($user->getCampus());
         }
@@ -110,7 +111,7 @@ class SortieRepository extends ServiceEntityRepository
 
             $qb->andWhere('e.libelle = ?7')
                 ->setParameter(7, "passé");
-        }else{
+        } else {
             $qb->andWhere('e.libelle <> ?8')
                 ->setParameter(8, "historisé");
         }

@@ -84,7 +84,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         //$faker = Faker\Factory::create('fr_FR');
         $faker = Factory::create('fr_FR');
         $sortie1 = Array();
-        for ($i = 1; $i < 25; $i++) {
+        for ($i = 1; $i < 100; $i++) {
             $list = ["Piscine", 'Cinéma', 'Patinoire', 'Bowling', 'Mini-golf', 'Karaoké', 'Biture', 'Escalade', 'Switch & Chill'];
             $sortie1[$i] = new Sortie();
             $sortie1[$i]->setNom(array_rand(array_flip($list), 1));
@@ -93,14 +93,14 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             $sortie1[$i]->setDuree($faker->numberBetween(30,300));
             $sortie1[$i]->setNbInscriptionsMax($faker->numberBetween(3,50));
             $sortie1[$i]->setInfosSortie($faker->email);
-            $sortie1[$i]->setLieu($this->getReference("lieu$i"));
+            $sortie1[$i]->setLieu($this->getReference("lieu".$faker->numberBetween(1,29)));
             $sortie1[$i]->setCampus($this->getReference("campus".$faker->numberBetween(1,9)));
             $sortie1[$i]->setEtat($this->getReference("ouvert"));
-            $sortie1[$i]->setOrganisateur($this->getReference("participant$i"));
-            $sortie1[$i]->addParticipant($this->getReference("participant$i"));
+            $sortie1[$i]->setOrganisateur($this->getReference("participant".$faker->numberBetween(1,49)));
+            $sortie1[$i]->addParticipant($this->getReference("participant".$faker->numberBetween(1,49)));
 
             for($j=0;$j<=$faker->numberBetween(0,$sortie1[$i]->getNbInscriptionsMax());$j++){
-                $sortie1[$i]->addParticipant($this->getReference("participant$i"));
+                $sortie1[$i]->addParticipant($this->getReference("participant".$faker->numberBetween(1,49)));
             }
 
             $manager->persist($sortie1[$i]);

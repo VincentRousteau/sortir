@@ -3,10 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Campus;
-use App\Entity\Participant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker;
 
 class CampusFixtures extends Fixture
 {
@@ -31,6 +29,15 @@ class CampusFixtures extends Fixture
         $campus3->setNom("Niort");
         $manager->persist($campus3);
         $this->addReference("niort", $campus3);
+
+        $campus = Array();
+        for ($i = 1; $i < 10; $i++) {
+            $list = array("Paris", 'Toulouse', 'Rennes', 'Niort', 'Montpellier', 'Marseille', 'Strasbourg', 'Lille', 'Chartres de Bretagne');
+            $campus[$i] = new Campus();
+            $campus[$i]->setNom(array_rand(array_flip($list), 1));
+            $manager->persist($campus[$i]);
+            $this->addReference("campus$i",$campus[$i]);
+        }
 
         $manager->flush();
     }

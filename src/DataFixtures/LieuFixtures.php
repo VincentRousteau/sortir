@@ -6,6 +6,9 @@ use App\Entity\Lieu;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
+use Faker;
+use App\DataFixtures\VilleFixtures;
 
 class LieuFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -45,11 +48,28 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($lieu);
         $this->addReference("gaumont", $lieu);
 
-        $manager->flush();
+        $faker = Faker\Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
+        $lieu = array();
+        for ($i = 1; $i < 30; $i++) {
+            $list = array("Piscine", 'Cinéma', 'Patinoire', 'Bowling', 'Mini-golf', 'Karaoké', 'Biture', 'Escalade', 'Switch & Chill');
+            $lieu[$i] = new Lieu();
+            $lieu[$i]->setNom(array_rand(array_flip($list), 1));
+            $lieu[$i]->setRue($faker->streetAddress);
+            $lieu[$i]->setLatitude($faker->latitude);
+            $lieu[$i]->setLongitude($faker->longitude);
+            $lieu[$i]->setVille($this->getReference("ville".$faker->numberBetween(1,24)));
+            $manager->persist($lieu[$i]);
+            $this->addReference("lieu$i",$lieu[$i]);
+
+            $manager->flush();
+        }
     }
 
-    public function getDependencies()
-    {
-        return [VilleFixtures::class];
+
+        public
+        function getDependencies()
+        {
+            return [VilleFixtures::class];
+        }
     }
-}

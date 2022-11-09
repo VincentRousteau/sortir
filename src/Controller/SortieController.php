@@ -186,17 +186,66 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/cancel/{id}', name:"cancel_sortie")]
-    public function cancel(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, EtatRepository $stateRepository)
+    public function cancel(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, EtatRepository $stateRepository, Request $request)
     {
         $sortie = $sortieRepository->find($id);
-        $sortie->setEtat($stateRepository->findOneByLibelle("historisé"));
-        $em->persist($sortie);
-        $em->flush();
 
-        return $this->redirectToRoute('homepage', [
-            "id" => $id
+        $sortieForm  = $this->createForm(SortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+            $sortie->setInfosSortie($sortieForm->get("info")->getData());
+            $sortie->setEtat($stateRepository->findOneByLibelle("historisé"));
+
+            $em->persist($sortie);
+            $em->flush();
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render("sortie/annulationSortie.html.twig", [
+            "sortieForm" => $sortieForm->createView(),
         ]);
     }
+
+    #[Route('/sortie/modificationSortie/{id}', name:"modifier_sortie", requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function modify_sortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, VilleRepository $villeRepository, Request $request, EtatRepository $etatRepository):Response
+    {
+        $sortie = $sortieRepository->find($id);
+        $sortieForm  = $this->createForm(SortieType::class, $sortie);
+        $villes = $villeRepository->findAll();
+
+        $sortieForm->handleRequest($request);
+
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+            if($sortieForm->get('enregistrer')->isClicked()){
+                $sortie->setEtat($etatRepository->findOneByLibelle("En creation"));
+            }
+            elseif($sortieForm->get('publier')->isClicked()){
+                $sortie->setEtat($etatRepository->findOneByLibelle("Ouvert"));
+                $sortie->addParticipant($this->getUser());
+            }
+            $sortie->setOrganisateur($this->getUser());
+            $lieu = $sortie->getLieu();
+            $sortie->getLieu()->setVille($sortieForm->get('ville')->getData());
+
+            $em->persist($sortie);
+            $em->flush();
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render("sortie/modificationSortie.html.twig", [
+            "sortieForm" => $sortieForm->createView(),
+            "listeVilles" => $villes
+        ]);
+    }
+
+//    #[Route('/sortie/AnnulerSortie/{id}', name:"annuler_sortie", requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+//    public function annuler_sortie(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, VilleRepository $villeRepository, Request $request, EtatRepository $etatRepository):Response
+//    {
+//
+//    }
 
 
 

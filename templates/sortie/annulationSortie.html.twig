@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Annulation d'une sortie
+{% endblock %}
+
+{% block body %}
+    <h1>Annulation sortie</h1>
+
+    {{ form_start(sortieForm) }}
+
+    <h4>Cause de l'annulation</h4>
+    <div>
+        {{ form_row(sortieForm.infosSortie) }}
+    </div>
+
+    {{ form_end(sortieForm) }}
+
+{% endblock %}

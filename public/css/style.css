@@ -516,6 +516,12 @@ footer{
     height: 150px;
 }
 
+/*-----------------------Pages annexes--------------------------*/
+
+main{
+    background-color: red;
+}
+
 @media only screen and (max-width: 650px) {
 
     #logo{

@@ -12,6 +12,7 @@ use App\Form\VilleType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -121,7 +122,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/addparticipant/{id}', name:"addParticipant")]
-    public function addParticipant(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em)
+    public function addParticipant(int $id, SortieRepository $sortieRepository, EtatRepository $stateRepository, EntityManagerInterface $em)
     {
         $user = $this->getUser();
         $sortie = $sortieRepository->find($id);
@@ -131,6 +132,10 @@ class SortieController extends AbstractController
         $em->persist($user);
 
         $sortie->addParticipant($user);
+
+        if($sortie->getNbInscriptionsMax() <= count($sortie->getParticipants())){
+            $sortie->setEtat($stateRepository->find(3));
+        }
 
         $em->persist($sortie);
         $em->flush();
@@ -142,7 +147,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/sortie/removeparticipant/{id}', name:"removeParticipant")]
-    public function removeParticipant(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em)
+    public function removeParticipant(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, EtatRepository $stateRepository)
     {
         $user = $this->getUser();
         $sortie = $sortieRepository->find($id);
@@ -153,14 +158,45 @@ class SortieController extends AbstractController
 
         $sortie->removeParticipant($user);
 
+        if("now" <  $sortie->getDateLimiteInscription()){
+            $sortie->setEtat($stateRepository->find(1));
+        }
+
         $em->persist($sortie);
         $em->flush();
 
         return $this->redirectToRoute('sortie_detail', [
             "id" => $id
         ]);
-
     }
+
+    #[Route('/sortie/publish/{id}', name:"publish_sortie")]
+    public function publish(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, EtatRepository $stateRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+        $sortie->setEtat($stateRepository->find(1));
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('homepage', [
+            "id" => $id
+        ]);
+    }
+
+    #[Route('/sortie/cancel/{id}', name:"cancel_sortie")]
+    public function cancel(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, EtatRepository $stateRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+        $sortie->setEtat($stateRepository->find(3));
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('homepage', [
+            "id" => $id
+        ]);
+    }
+
+
 
 
 }

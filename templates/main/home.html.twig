@@ -4,12 +4,13 @@
     {{ parent() }} - Accueil
 {% endblock %}
 
+{% block pseudo %}
+    {{ personne.getPseudo }}
+{% endblock %}
+
+
 {% block body %}
     <h1>Les sorties</h1>
-
-    <p>Date du jour : {{ 'now'|date('d/m/Y') }}</p>
-
-
     {{ form_start(formulaire, {'attr': {'id': 'recherche_form'}}) }}
         <div class="champsDeRecherche">
             <div class="rechercheInput">
@@ -85,11 +86,11 @@
                                         {% if(personne.pseudo is same as (sortie.organisateur.pseudo)) %}
                                             {% if (sortie.etat.libelle is same as ("En creation")) %}
                                                 <a href="">Modifier</a>
-                                                <a href="}">Publier</a>
+                                                <a href="{{ path('publish_sortie', {"id":sortie.id}) }}">Publier</a>
                                             {% endif %}
                                             {% if (sortie.etat.libelle is same as ("Ouvert")) %}
-                                                <a href="">Afficher</a>
-                                                <a href="">Annuler</a>
+                                                <a href="{{ path('sortie_detail', {"id":sortie.id}) }}">+ d'infos</a>
+                                                <a href="{{ path('cancel_sortie', {"id":sortie.id})}}">Annuler</a>
                                             {% endif %}
 
                                         {% else %}

@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Sortir{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset("css/style.css") }}">
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="icon" href="{{ asset('images/logo_ENI_pt.svg') }}">
         {% block javascripts %}
             <script src="{{ asset('js/script.js') }}" defer></script>
         {% endblock %}
@@ -24,11 +24,12 @@
                             <a href="{{ path('app_logout') }}">
                                 <div id="avatar">
                                         <img src="{{ asset('images/avatars/avataaars(6).png') }}" alt="avatar">
-                                        <div class="avatar_pseudo">Bob Marley</div>
+                                        <div class="avatar_pseudo">{% block pseudo %}{% endblock %}</div>
                                 </div>
                             </a>
                         </div>
                     {% endif %}
+                    <div class="date">{{ 'now'|date('d/m/Y') }}</div>
                 </div>
                 <!--<img src="{{ asset('images/sortir.svg') }}" alt="Sortir" height="150 px">-->
                 {% block nav %}

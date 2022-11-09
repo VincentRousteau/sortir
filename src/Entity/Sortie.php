@@ -16,15 +16,20 @@ class Sortie
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\NotBlank(message: 'Le nom doit être rempli')]
+    #[Assert\Length(Message: 'Le nom doit comporter moins de 255 caractères')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Assert\NotBlank(message: 'La date doit être rempli')]
+    #[Assert\GreaterThan('today', message: 'La sortie doit être ultérieure à aujourd\'hui')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]
     private ?int $duree = null;
-
+    #[Assert\LessThanOrEqual(propertyPath: 'startDate', message: 'La sortie doit être inferieur à aujourd\'hui')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 

@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{#    {{ form_start(profileForm) }}#}
-{#    {{ form_widget(profilerForm) }}#}
     <h2>Détail du profil</h2>
     <div>Pseudo : {{ profile.pseudo }}</div>
     <div>Prénom : {{ profile.prenom }}</div>
@@ -18,14 +16,6 @@
             <img src="{{ asset('uploads/logo-eni.jpg/')}}" alt="Photo par défaut" width="auto" height="150 px">
         {% endif %}
     </div>
-
-{#    {{ form_row(profile.image) }}#}
-{#    {{ form_end(profileForm) }}#}
-
-        {% if app.user == profile %}
-            <a href="{{ path('profile_edit') }}">Modifier mon profil</a><br>
-            <a href="{{ path('profile_new') }}">Modifier mon mot de passe</a>
-        {% endif %}
 {% endblock %}
 
-{% block title %}Mon profil{% endblock %}
+{% block title %}Profil de {{ profile.pseudo }}{% endblock %}

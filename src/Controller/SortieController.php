@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Form\AnnulerSortie;
 use App\Form\LieuType;
 use App\Form\RechercheVilleType;
 use App\Form\SortieType;
@@ -190,12 +191,13 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
 
-        $sortieForm  = $this->createForm(SortieType::class, $sortie);
-        $sortieForm->handleRequest($request);
+        $annnulerForm  = $this->createForm(AnnulerSortie::class);
+        $annnulerForm->handleRequest($request);
 
-        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+        if($annnulerForm->isSubmitted() && $annnulerForm->isValid()){
 
-            $sortie->setInfosSortie($sortieForm->get("info")->getData());
+            $texte=$sortie->getInfosSortie()." ANNULÉ : ".$annnulerForm->get("raison")->getData();
+            $sortie->setInfosSortie($texte);
             $sortie->setEtat($stateRepository->findOneByLibelle("historisé"));
 
             $em->persist($sortie);
@@ -204,7 +206,7 @@ class SortieController extends AbstractController
         }
 
         return $this->render("sortie/annulationSortie.html.twig", [
-            "sortieForm" => $sortieForm->createView(),
+            "annulerForm" => $annnulerForm->createView(),
         ]);
     }
 

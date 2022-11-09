@@ -103,9 +103,6 @@ class EditProfileType extends AbstractType
             ->add('image', FileType::class, [
                 'label' => 'Modifier mon avatar',
                 'mapped' => false,
-//                'label_attr' => [
-//                    'class' => 'form-label mt-4'
-//                ]
             ])
 
             ->add('Valider',SubmitType::class, ['label' => 'Valider'])

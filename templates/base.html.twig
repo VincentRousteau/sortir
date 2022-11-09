@@ -24,7 +24,7 @@
                             <a href="{{ path('app_logout') }}">
                                 <div id="avatar">
                                     {% if app.user.image %}
-                                        <img src="{{ app.user.image }}" alt="avatar">
+                                        <img src="{{ asset('uploads/avatars/'~app.user.image) }}" alt="avatar">
                                     {% else %}
                                         <img src="{{ asset('images/avatars/avataaars(6).png') }}" alt="avatar">
                                     {% endif %}

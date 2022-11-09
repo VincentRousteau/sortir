@@ -6,6 +6,7 @@ use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
 class Ville
@@ -15,6 +16,8 @@ class Ville
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Le nom doit être renseigner')]
+    #[Assert\Length(min: 1, max:100, minMessage: 'Le nom doit avoir {{ min }} et {{ max }} caractères')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 

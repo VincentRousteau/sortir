@@ -49,6 +49,7 @@ class SortieController extends AbstractController
             }
             elseif($sortieForm->get('publier')->isClicked()){
                 $sortie->setEtat($etatRepository->findOneByLibelle("Ouvert"));
+                $sortie->addParticipant($this->getUser());
             }
             $sortie->setOrganisateur($this->getUser());
             $lieu = $sortie->getLieu();
@@ -134,7 +135,7 @@ class SortieController extends AbstractController
         $sortie->addParticipant($user);
 
         if($sortie->getNbInscriptionsMax() <= count($sortie->getParticipants())){
-            $sortie->setEtat($stateRepository->find(3));
+            $sortie->setEtat($stateRepository->findOneByLibelle("fermé"));
         }
 
         $em->persist($sortie);
@@ -159,7 +160,7 @@ class SortieController extends AbstractController
         $sortie->removeParticipant($user);
 
         if("now" <  $sortie->getDateLimiteInscription()){
-            $sortie->setEtat($stateRepository->find(1));
+            $sortie->setEtat($stateRepository->findOneByLibelle("ouvert"));
         }
 
         $em->persist($sortie);
@@ -174,7 +175,8 @@ class SortieController extends AbstractController
     public function publish(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, EtatRepository $stateRepository)
     {
         $sortie = $sortieRepository->find($id);
-        $sortie->setEtat($stateRepository->find(1));
+        $sortie->setEtat($stateRepository->findOneByLibelle("ouvert"));
+        $sortie->addParticipant($this->getUser());
         $em->persist($sortie);
         $em->flush();
 
@@ -187,7 +189,7 @@ class SortieController extends AbstractController
     public function cancel(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, EtatRepository $stateRepository)
     {
         $sortie = $sortieRepository->find($id);
-        $sortie->setEtat($stateRepository->find(3));
+        $sortie->setEtat($stateRepository->findOneByLibelle("historisé"));
         $em->persist($sortie);
         $em->flush();
 

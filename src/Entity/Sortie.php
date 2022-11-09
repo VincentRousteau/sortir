@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -18,7 +19,7 @@ class Sortie
 
 
     #[Assert\NotBlank(message: 'Le nom doit être rempli')]
-    #[Assert\Length(Message: 'Le nom doit comporter moins de 255 caractères')]
+    #[Assert\Length(min: 5, max:40, minMessage: 'Le nom doit avoir entre {{ min }}  moins de {{ max }} caractères')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
@@ -29,13 +30,17 @@ class Sortie
 
     #[ORM\Column]
     private ?int $duree = null;
-    #[Assert\LessThanOrEqual(propertyPath: 'startDate', message: 'La sortie doit être inferieur à aujourd\'hui')]
+
+    #[Assert\NotBlank(message: 'La date doit être rempli')]
+    #[Assert\LessThanOrEqual(propertyPath: 'dateHeureDebut', message: 'La sortie doit être inferieur à aujourd\'hui')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
+    #[Assert\NotBlank(message: 'Le nombre de participants max doit être renseigner')]
     #[ORM\Column]
     private ?int $nbInscriptionsMax = null;
 
+    #[Assert\Length(min: 5, max:250, minMessage: 'La description doit avoir entre {{ min }} et {{ max }} caractères')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $infosSortie = null;
 

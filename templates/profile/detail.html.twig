@@ -11,11 +11,11 @@
     <div>email : {{ profile.email }}</div>
     <div>Campus : {{ profile.campus.nom }}</div>
     <div>Photo : {{ profile.image }}</div>
-    <div id="avatar">
+    <div id="avatar2">
         {% if profile.image %}
-            <img src="{{ asset('uploads/avatars/' ~ profile.image)}}" alt="{{ profile.prenom }} {{ profile.nom }}" height="75 px">
+            <img src="{{ asset('uploads/avatars/' ~ profile.image)}}" alt="{{ profile.prenom }} {{ profile.nom }}" height="150 px">
         {% else %}
-            <img src="{{ asset('uploads/logo-eni.jpg/')}}" alt="Photo par défaut" height="75 px">
+            <img src="{{ asset('uploads/logo-eni.jpg/')}}" alt="Photo par défaut" width="auto" height="150 px">
         {% endif %}
     </div>
 

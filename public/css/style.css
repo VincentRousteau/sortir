@@ -179,6 +179,7 @@ main{
     width: 100%;
     margin: 20px 60px;
 }
+
 /*----------------Formulaire d'identification---------------------*/
 
 #identification_form{
@@ -518,9 +519,40 @@ footer{
 
 /*-----------------------Pages annexes--------------------------*/
 
-main{
-    background-color: red;
+
+#edit_profile{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    width: 60%;
+    margin: 60px auto;
 }
+
+#edit_profile div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#edit_profile label{
+    width: 100%;
+    display: inline-block;
+}
+
+#edit_profile input{
+    width: 100%;
+}
+
+.button-group{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 30px;
+}
+
+
 
 @media only screen and (max-width: 650px) {
 

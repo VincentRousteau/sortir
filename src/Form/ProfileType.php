@@ -51,8 +51,7 @@ class ProfileType extends AbstractType
 //                    'class' => 'form-label mt-4'
 //                ]
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Valider'])
-            ->add('Annuler',SubmitType::class, ['label' => 'Annuler'])
+
         ;
     }
 

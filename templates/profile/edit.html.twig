@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Mon profil</h2>
+    <h1>Mon profil</h1>
     {{ form_start(profileForm) }}
     {{ form_widget(profileForm) }}
+    <div class="button-group">
+        <a href="{{ path('homepage') }}"><button>Annuler</button></a>
+        <button type="submit">Modifier</button>
+    </div>
     {{ form_end(profileForm) }}
-    <a href="{{ path('homepage') }}"><button>Annuler</button></a>
+
 {% endblock %}
 {% block title %}Mon profil{% endblock %}

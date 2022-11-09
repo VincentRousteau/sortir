@@ -121,10 +121,6 @@ class EditProfileType extends AbstractType
                 'mapped'=>false,
                 'required' =>false
             ])
-
-            ->add('Valider',SubmitType::class, [
-                'label' => 'Valider'
-            ])
         ;
     }
 

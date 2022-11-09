@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 
@@ -18,6 +19,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'L\'email doit être renseigner')]
+    #[Assert\Length(min: 5, max:100, minMessage: 'L\'email doit comporter entre {{ min }} et {{ max }} caractères')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -30,11 +33,16 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Assert\NotBlank(message: 'Le nom doit être rempli')]
+    #[Assert\Length(minMessage: 'Le nom doit comporter moins de 40 caractères')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Assert\NotBlank(message: 'Le prénom doit être rempli')]
+    #[Assert\Length(min: 5, max:40, minMessage: 'Le doit avoir entre {{ min }} et {{ max }} caractères')]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
+
 
     #[ORM\Column(length: 12, nullable: true)]
     private ?string $telephone = null;
@@ -42,6 +50,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $actif = null;
 
+    #[Assert\NotBlank(message: 'Le pseudo ndoit être renseigné')]
+    #[Assert\Length(min: 1, max:40, minMessage: 'Le pseudo doit avoir entre {{ min }} et {{ max }} caractères')]
     #[ORM\Column(length: 50, unique:true) ]
     private ?string $pseudo = null;
 

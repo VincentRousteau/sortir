@@ -30,8 +30,8 @@ class EditProfileType extends AbstractType
                         'message' => 'Veuillez saisir un pseudo'
                     ]),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Le nom doit contenir au minimum {{ limit }} caractères'
+                        'min' => 2,
+                        'minMessage' => 'Le pseudo doit contenir au minimum {{ limit }} caractères'
                     ]),
                 ]
             ])
@@ -41,7 +41,11 @@ class EditProfileType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir votre prénom'
-                    ])
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le prénom doit contenir au minimum {{ limit }} caractères'
+                    ]),
                 ]
             ])
             ->add('nom',TextType::class, [
@@ -50,7 +54,11 @@ class EditProfileType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir votre nom'
-                    ])
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le nom doit contenir au minimum {{ limit }} caractères'
+                    ]),
                 ]
             ])
             ->add('telephone',TelType::class, [
@@ -102,7 +110,8 @@ class EditProfileType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'label' => 'Modifier mon avatar',
-                'mapped' => false,
+                'mapped'=>false,
+                'required'=>false
             ])
 
             ->add('Valider',SubmitType::class, ['label' => 'Valider'])

@@ -34,12 +34,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[Assert\NotBlank(message: 'Le nom doit être rempli')]
-    #[Assert\Length(minMessage: 'Le nom doit comporter moins de 40 caractères')]
+    #[Assert\Length(min: 2, max:40, minMessage: 'Le nom doit comporter moins de 40 caractères')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
     #[Assert\NotBlank(message: 'Le prénom doit être rempli')]
-    #[Assert\Length(min: 5, max:40, minMessage: 'Le doit avoir entre {{ min }} et {{ max }} caractères')]
+    #[Assert\Length(min: 2, max:40, minMessage: 'Le doit avoir entre {{ min }} et {{ max }} caractères')]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 

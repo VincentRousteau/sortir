@@ -61,6 +61,7 @@ class ProfileController extends AbstractController
         $this->addFlash('success', 'Le profil a bien été enregistré');
     }
 
+
         return $this->render('profile/edit.html.twig',[
             'profile' => $user,
             'profileForm'=>$profileForm->createView()

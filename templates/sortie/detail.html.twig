@@ -21,7 +21,7 @@
         <h3>Liste des participants</h3>
         {% for participant in sortie.participants %}
             <div class="particpant">
-                <a href="{{ path('profile_detail', {"id":sortie.id})  }}">{{ participant.pseudo}} - {{ participant.prenom}} - {{ participant.nom}}</a>
+                <a href="{{ path('profile_detail', {"id":participant.id})  }}">{{ participant.pseudo}} - {{ participant.prenom}} - {{ participant.nom}}</a>
             </div>
 
         {% endfor %}

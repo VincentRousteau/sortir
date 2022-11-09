@@ -21,23 +21,23 @@ class ProfileController extends AbstractController
 {
 
     #[Route('/profile/{id}', name: 'profile_detail', requirements: ['id' => '\d+'])]
-    public function details(ParticipantRepository $participantRepository, int $id) : Response
+    public function details(ParticipantRepository $participantRepository, int $id): Response
     {
         $user = $this->getUser();
         $profile = $participantRepository->find($id);
 
-        if($user->getId() !=$profile->getId()){
-            return $this->render('profile/detail.html.twig',[
+        if ($user->getId() != $profile->getId()) {
+            return $this->render('profile/detail.html.twig', [
                 'profile' => $profile
             ]);
-        }else{
+        } else {
             return $this->redirectToRoute('profile_new');
         }
 
     }
 
     #[Route('/profile/edit', name: 'profile_edit')]
-    public function edit(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher, FileUploader $fileUploader) : Response
+    public function edit(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher, FileUploader $fileUploader): Response
     {
         $user = $this->getUser();
 
@@ -55,32 +55,32 @@ class ProfileController extends AbstractController
                 $user->setImage($avatar);
             }
 
-                // Encode le plain password
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $profileForm->get('password')->getData()
-                    )
-                );
+            // Encode le plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $profileForm->get('password')->getData()
+                )
+            );
 
             $em->persist($user);
             $em->flush();
 
 
-        $this->addFlash('success', 'Le profil a bien été enregistré');
-    }
+            $this->addFlash('success', 'Le profil a bien été enregistré');
 
-        return $this->render('profile/edit.html.twig',[
+        }
+
+        return $this->render('profile/edit.html.twig', [
             'profile' => $user,
-            'profileForm'=>$profileForm->createView()
-
+            'profileForm' => $profileForm->createView()
         ]);
 
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/profile/new', name:'profile_new')]
-    public function new(AuthenticationUtils $authenticationUtils, ParticipantRepository $participantRepository, Request $request, EntityManagerInterface $em, FileUploader $fileUploader) : Response
+    #[Route('/profile/new', name: 'profile_new')]
+    public function new(AuthenticationUtils $authenticationUtils, ParticipantRepository $participantRepository, Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $profile = new Participant();
         $email = $authenticationUtils->getLastUsername();
@@ -99,14 +99,14 @@ class ProfileController extends AbstractController
 
 
         //Vérifier si l'utilisateur est en train d'envoyer le formulaire
-        if($profileForm->isSubmitted() && $profileForm->isValid()){
+        if ($profileForm->isSubmitted() && $profileForm->isValid()) {
 
 
             //Uploader les images
             /** @var UploadedFile $avatar */
             $avatar = $profileForm->get('Image')->getData();
-            if($avatar){
-                $avatar= $fileUploader->upload($avatar, '/images/avatars');
+            if ($avatar) {
+                $avatar = $fileUploader->upload($avatar, '/images/avatars');
                 $profile->setImage($avatar);
             }
 
@@ -121,9 +121,9 @@ class ProfileController extends AbstractController
 
         }
 
-      return $this->render('profile/new.html.twig', [
-          'profileForm' => $profileForm->createView()
-      ]);
+        return $this->render('profile/new.html.twig', [
+            'profileForm' => $profileForm->createView()
+        ]);
     }
 
     //Route /series/1       series_details details.html.twig                   Arriver dans une page qui présente les détails d'une série

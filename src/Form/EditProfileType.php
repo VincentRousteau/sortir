@@ -6,9 +6,11 @@ use App\Entity\Campus;
 use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -120,8 +122,9 @@ class EditProfileType extends AbstractType
                 'required' =>false
             ])
 
-            ->add('Valider',SubmitType::class, ['label' => 'Valider'])
-            ->add('Annuler',SubmitType::class, ['label' => 'Annuler'])
+            ->add('Valider',SubmitType::class, [
+                'label' => 'Valider'
+            ])
         ;
     }
 

@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -94,9 +95,14 @@ class EditProfileType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
+            -> add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'invalid_message' => 'Les mots de passe doivent correspondre.',
+                'options' => ['attr' => ['class' => 'password-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Saisir un mot de passe'],
+                'second_options' => ['label' => 'Confirmer le mot de passe'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Modifier votre mot de passe',
@@ -106,12 +112,10 @@ class EditProfileType extends AbstractType
                         'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères',
                         'max' => 4096,
                     ]),
-                ],
+                ]
             ])
             ->add('image', FileType::class, [
                 'label' => 'Modifier mon avatar',
-                'mapped'=>false,
-                'required'=>false
             ])
 
             ->add('Valider',SubmitType::class, ['label' => 'Valider'])

@@ -31,7 +31,7 @@ class ProfileController extends AbstractController
                 'profile' => $profile
             ]);
         }else{
-            return $this->redirectToRoute('profile_edit');
+            return $this->redirectToRoute('profile_new');
         }
 
     }
@@ -69,7 +69,6 @@ class ProfileController extends AbstractController
 
         $this->addFlash('success', 'Le profil a bien été enregistré');
     }
-
 
         return $this->render('profile/edit.html.twig',[
             'profile' => $user,

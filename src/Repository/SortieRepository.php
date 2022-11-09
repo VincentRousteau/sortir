@@ -50,7 +50,9 @@ class SortieRepository extends ServiceEntityRepository
             ->addSelect('o')
             ->innerJoin('s.organisateur', 'o')
             ->addSelect('e')
-            ->innerJoin('s.etat','e');
+            ->innerJoin('s.etat','e')
+        ->addSelect('l')
+        ->innerJoin('s.lieu','l');
 
 
         if ($entiteFormulaire->getSortiesInscrit()) {

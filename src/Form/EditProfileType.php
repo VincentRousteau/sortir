@@ -116,6 +116,8 @@ class EditProfileType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'label' => 'Modifier mon avatar',
+                'mapped'=>false,
+                'required'=>false
             ])
 
             ->add('Valider',SubmitType::class, ['label' => 'Valider'])

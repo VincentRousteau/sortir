@@ -31,7 +31,7 @@ class ProfileController extends AbstractController
                 'profile' => $profile
             ]);
         } else {
-            return $this->redirectToRoute('profile_new');
+            return $this->redirectToRoute('profile_edit');
         }
 
     }

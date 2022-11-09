@@ -34,13 +34,13 @@ class UpdateState
 
 
             if($isArchived){
-                $sortie->setEtat($this->stateRepository->find(3));
+                $sortie->setEtat($this->stateRepository->findOneByLibelle("historisé"));
             }
             elseif($isPassed){
-                $sortie->setEtat($this->stateRepository->find(5));
+                $sortie->setEtat($this->stateRepository->findOneByLibelle("passé"));
             }
             elseif($isInProgress){
-                $sortie->setEtat($this->stateRepository->find(4));
+                $sortie->setEtat($this->stateRepository->findOneByLibelle("en cours"));
             }
 
             $this->entityManager->persist($sortie);

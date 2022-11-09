@@ -4,11 +4,6 @@
     {{ parent() }} - Accueil
 {% endblock %}
 
-{% block pseudo %}
-    {{ personne.getPseudo }}
-{% endblock %}
-
-
 {% block body %}
     <h1>Les sorties</h1>
     {{ form_start(formulaire, {'attr': {'id': 'recherche_form'}}) }}

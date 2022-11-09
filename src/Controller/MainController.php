@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Form\EntiteFormulaire;
 use App\Form\RechercheFormType;
 use App\Repository\SortieRepository;
-use App\Service\ChangeEtat;
+use App\Service\UpdateState;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'homepage', methods: ['GET', 'POST'])]
-    public function index(Request $request, SortieRepository $sortieRepository, ChangeEtat $changeEtat): Response
+    public function index(Request $request, SortieRepository $sortieRepository, UpdateState $updateState): Response
     {
 
         $personne = $this->getUser();
@@ -26,7 +26,7 @@ class MainController extends AbstractController
 
         $sorties = $sortieRepository->gigaRequeteDeSesMortsDeMerde($entiteFormulaire, $personne);
 
-        //$changeEtat->change($sorties);
+        $updateState->update($sorties);
 
 
 

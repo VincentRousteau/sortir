@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Annulation d'une sortie
+{% endblock %}
+
+{% block body %}
+    <h1>Annulation sortie</h1>
+
+    <h4>Cause de l'annulation</h4>
+    {{ form_start(annulerForm) }}
+    {{ form_widget(annulerForm) }}
+    {{ form_end(annulerForm) }}
+    <a href="{{ path('homepage') }}"><button>Annuler</button></a>
+
+{% endblock %}

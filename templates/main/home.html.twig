@@ -80,19 +80,22 @@
                                     <div class="buttons">
                                         {% if(personne.pseudo is same as (sortie.organisateur.pseudo)) %}
                                             {% if (sortie.etat.libelle is same as ("En creation")) %}
-                                                <a href="">Modifier</a>
+                                                <a href="{{ path('modifier_sortie', {"id":sortie.id}) }}">Modifier</a>
                                                 <a href="{{ path('publish_sortie', {"id":sortie.id}) }}">Publier</a>
                                             {% endif %}
                                             {% if (sortie.etat.libelle is same as ("Ouvert")) %}
                                                 <a href="{{ path('sortie_detail', {"id":sortie.id}) }}">+ d'infos</a>
                                                 <a href="{{ path('cancel_sortie', {"id":sortie.id})}}">Annuler</a>
                                             {% endif %}
+                                            {% if (sortie.etat.libelle is same as ("En cours")) %}
+                                                <a href="{{ path('sortie_detail', {"id":sortie.id}) }}">+ d'infos</a>
+                                            {% endif %}
 
                                         {% else %}
                                             <a href="{{ path('sortie_detail', {"id":sortie.id}) }}">+ d'infos</a>
                                             {% if (personne not in sortie.participants) %}
                                                 {% if (sortie.etat.libelle is not same as ("Passé")) %}
-                                                    {% if(sortie.participants|length < sortie.nbInscriptionsMax) %}
+                                                    {% if(sortie.participants|length < sortie.nbInscriptionsMax and sortie.etat.libelle == "Ouvert") %}
                                                         <a href="{{ path('addParticipant', {"id":sortie.id}) }}">S'inscrire</a>
                                                     {% endif %}
                                                 {% endif %}

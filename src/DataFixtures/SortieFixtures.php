@@ -56,7 +56,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $sortie3->setDateHeureDebut(new \DateTime("2023-01-10 18:30:00"));
         $sortie3->setDateLimiteInscription(new \DateTime("2023-01-02 18:30:00"));
         $sortie3->setDuree(120);
-        $sortie3->setNbInscriptionsMax(15);
+        $sortie3->setNbInscriptionsMax(2);
         $sortie3->setInfosSortie("Sortie à la piscine");
         $sortie3->setLieu($this->getReference("gaumont"));
         $sortie3->setCampus($this->getReference("niort"));

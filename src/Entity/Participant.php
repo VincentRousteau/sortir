@@ -19,7 +19,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank(message: 'L\'email doit être renseigner')]
+    #[Assert\NotBlank(message: 'L\'email doit être renseigné')]
     #[Assert\Length(min: 5, max:100, minMessage: 'L\'email doit comporter entre {{ min }} et {{ max }} caractères')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;

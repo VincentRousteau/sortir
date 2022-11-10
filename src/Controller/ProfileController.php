@@ -69,6 +69,8 @@ class ProfileController extends AbstractController
 
             $this->addFlash('success', 'Le profil a bien été enregistré');
 
+            return $this->redirectToRoute('homepage');
+
         }
 
         return $this->render('profile/edit.html.twig', [

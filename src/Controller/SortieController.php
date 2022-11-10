@@ -53,7 +53,6 @@ class SortieController extends AbstractController
                 $sortie->addParticipant($this->getUser());
             }
             $sortie->setOrganisateur($this->getUser());
-            $lieu = $sortie->getLieu();
             $sortie->getLieu()->setVille($sortieForm->get('ville')->getData());
 
             $em->persist($sortie);

@@ -50,7 +50,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $actif = null;
 
-    #[Assert\NotBlank(message: 'Le pseudo ndoit être renseigné')]
+    #[Assert\NotBlank(message: 'Le pseudo doit être renseigné')]
     #[Assert\Length(min: 1, max:40, minMessage: 'Le pseudo doit avoir entre {{ min }} et {{ max }} caractères')]
     #[ORM\Column(length: 50, unique:true) ]
     private ?string $pseudo = null;

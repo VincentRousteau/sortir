@@ -4,8 +4,8 @@
     <h1>Mon profil</h1>
     {{ form_start(profileForm) }}
     {{ form_widget(profileForm) }}
-    <div class="button-group">
-        <a href="{{ path('homepage') }}"><button>Annuler</button></a>
+    <div class="buttons-group">
+        <a href={{ path('homepage') }} class="annulationButton">Annuler</a>
         <button type="submit">Modifier</button>
     </div>
     {{ form_end(profileForm) }}

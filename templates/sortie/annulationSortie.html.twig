@@ -7,10 +7,17 @@
 {% block body %}
     <h1>Annulation sortie</h1>
 
-    <h4>Cause de l'annulation</h4>
-    {{ form_start(annulerForm) }}
-    {{ form_widget(annulerForm) }}
-    {{ form_end(annulerForm) }}
-    <a href="{{ path('homepage') }}"><button>Annuler</button></a>
+    <div class="form_addSortie">
+        {{ form_start(annulerForm) }}
+            {{ form_row(annulerForm.raison) }}
+            <div class="buttons-group">
+                {{ form_row(annulerForm.Valider) }}
+                <div>
+                    <a href="{{ path('homepage') }}" class="annulationButton">Annuler</a>
+                </div>
+            </div>
+        {{ form_end(annulerForm) }}
+
+    </div>
 
 {% endblock %}

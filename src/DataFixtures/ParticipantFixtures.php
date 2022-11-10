@@ -83,7 +83,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
             $participant[$i]->setPseudo($faker->unique()->lastName);
             $participant[$i]->setTelephone($faker->numberBetween(100000000,999999999) );
             $participant[$i]->setActif(true);
-            $participant[$i]->setCampus($this->getReference("campus".$faker->numberBetween(1,9)));
+            $participant[$i]->setCampus($this->getReference("campus".$faker->numberBetween(0,8)));
             $this->addReference("participant$i", $participant[$i]);
 
             $manager->persist($participant[$i]);

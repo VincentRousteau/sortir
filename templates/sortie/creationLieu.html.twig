@@ -7,12 +7,25 @@
 {% block body %}
 <h1>Ajout d'un lieu</h1>
 
-{{ form_start(lieuForm) }}
+    <div class="form_addSortie">
 
-    {{ form_widget(lieuForm) }}
+        {{ form_start(lieuForm) }}
 
-    <button>Ajouter</button>
+            {{ form_row(lieuForm.nom) }}
 
-{{ form_end(lieuForm) }}
+            {{ form_row(lieuForm.rue) }}
+
+            {{ form_row(lieuForm.latitude) }}
+
+            {{ form_row(lieuForm.longitude) }}
+
+            {{ form_row(lieuForm.ville) }}
+
+        <div class="buttons-group">
+            <a href="{{ path('homepage') }}"><button>Ajouter</button></a>
+        </div>
+
+        {{ form_end(lieuForm) }}
+    </div>
 
 {% endblock %}

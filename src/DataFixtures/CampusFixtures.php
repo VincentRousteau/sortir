@@ -31,10 +31,10 @@ class CampusFixtures extends Fixture
         $this->addReference("niort", $campus3);
 
         $campus = Array();
-        for ($i = 1; $i < 10; $i++) {
-            $list = array("Paris", 'Toulouse', 'Rennes', 'Niort', 'Montpellier', 'Marseille', 'Strasbourg', 'Lille', 'Chartres de Bretagne');
+        for ($i = 0; $i < 9; $i++) {
+            $list = array('Paris', 'Toulouse', 'Rennes', 'Niort', 'Montpellier', 'Marseille', 'Strasbourg', 'Lille', 'Chartres de Bretagne');
             $campus[$i] = new Campus();
-            $campus[$i]->setNom(array_rand(array_flip($list), 1));
+            $campus[$i]->setNom($list[$i]);
             $manager->persist($campus[$i]);
             $this->addReference("campus$i",$campus[$i]);
         }

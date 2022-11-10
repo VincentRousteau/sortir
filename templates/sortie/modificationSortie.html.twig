@@ -1,42 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Modification d'une sortie
+    Ajout d'une sortie
 {% endblock %}
 
 {% block body %}
-    <h1>Modification sortie</h1>
+    <h1>Modification d'une sortie</h1>
 
-    {{ form_start(sortieForm) }}
+    <div class="form_addSortie">
 
-    <div>
+        {{ form_start(sortieForm) }}
+
         {{ form_row(sortieForm.nom) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.infosSortie) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.nbInscriptionsMax) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.dateHeureDebut) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.dateLimiteInscription) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.duree) }}
-    </div>
-    <div>
-        {{ form_row(sortieForm.ville) }}
-    </div>
-    <div class="dispoLieuForm">
-        {{ form_row(sortieForm.lieu) }} <div id="addPlace"></div>
-    </div>
-    <div>
-        {{ form_row(sortieForm.campus) }}
-    </div>
 
-    {{ form_end(sortieForm) }}
+        {{ form_row(sortieForm.infosSortie) }}
+
+        {{ form_row(sortieForm.nbInscriptionsMax) }}
+
+        {{ form_row(sortieForm.dateHeureDebut) }}
+
+        {{ form_row(sortieForm.dateLimiteInscription) }}
+
+        {{ form_row(sortieForm.duree) }}
+
+        {{ form_row(sortieForm.ville) }}
+
+        {{ form_row(sortieForm.lieu) }}
+        <div class="addSortie">
+            <a href="{{ path('lieu_creation') }}" id="ajoutSortie">Ajouter un lieu</a>
+        </div>
+
+        {{ form_row(sortieForm.campus) }}
+
+        <div class="buttons-group">
+            {{ form_row((sortieForm.enregistrer)) }}
+            {{ form_row((sortieForm.publier)) }}
+            <div>
+                <a href="{{ path('homepage') }}" class="annulationButton">Annuler</a>
+            </div>
+        </div>
+
+        {{ form_end(sortieForm) }}
+
+    </div>
 
 {% endblock %}

@@ -32,7 +32,7 @@ class Sortie
     private ?int $duree = null;
 
     #[Assert\NotBlank(message: 'La date doit être rempli')]
-    #[Assert\LessThanOrEqual(propertyPath: 'dateHeureDebut', message: 'La sortie doit être inferieur à aujourd\'hui')]
+    #[Assert\LessThanOrEqual(propertyPath: 'dateHeureDebut', message: 'La sortie doit être inferieur à la date de debut de la sortie')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 

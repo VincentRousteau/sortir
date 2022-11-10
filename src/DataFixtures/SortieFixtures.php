@@ -94,7 +94,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             $sortie1[$i]->setNbInscriptionsMax($faker->numberBetween(3,50));
             $sortie1[$i]->setInfosSortie($faker->email);
             $sortie1[$i]->setLieu($this->getReference("lieu".$faker->numberBetween(1,29)));
-            $sortie1[$i]->setCampus($this->getReference("campus".$faker->numberBetween(1,9)));
+            $sortie1[$i]->setCampus($this->getReference("campus".$faker->numberBetween(0,8)));
             $sortie1[$i]->setEtat($this->getReference("ouvert"));
             $sortie1[$i]->setOrganisateur($this->getReference("participant".$faker->numberBetween(1,49)));
             $sortie1[$i]->addParticipant($this->getReference("participant".$faker->numberBetween(1,49)));

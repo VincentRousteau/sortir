@@ -58,7 +58,7 @@
                                     <h3>{{ sortie.nom }}</h3>
                                 </div>
                                 <div class="card_dateDebut">
-                                    Le {{ sortie.dateHeureDebut|date('d/m/Y') }}
+                                    Le {{ sortie.dateHeureDebut|date("d/m/Y H:i") }}
                                 </div>
                                 <div>
                                     Durée de l'évènement : {{ sortie.duree }} minutes

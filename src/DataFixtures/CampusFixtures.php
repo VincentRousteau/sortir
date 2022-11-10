@@ -32,7 +32,7 @@ class CampusFixtures extends Fixture
 
         $campus = Array();
         for ($i = 0; $i < 9; $i++) {
-            $list = array('Paris', 'Toulouse', 'Rennes', 'Niort', 'Montpellier', 'Marseille', 'Strasbourg', 'Lille', 'Chartres de Bretagne');
+            $list = array('Paris', 'Toulouse', 'Rennes', 'Quimper', 'Montpellier', 'Marseille', 'Strasbourg', 'Lille', 'Brest');
             $campus[$i] = new Campus();
             $campus[$i]->setNom($list[$i]);
             $manager->persist($campus[$i]);
